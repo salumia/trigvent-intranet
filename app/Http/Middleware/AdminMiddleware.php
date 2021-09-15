@@ -17,9 +17,10 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Gate::denies('isAdmin')){
-            abort(404);
-        }
+        // if(Gate::denies('isAdmin')){
+        //     abort(404);
+        // }
+        
         return $next($request);
     }
 }

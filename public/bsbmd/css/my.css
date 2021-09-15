@@ -78,3 +78,21 @@
         .dropdown-menu ul.menu .my-menu-info {
             top: -5px!important;
         }
+        .pha_button button{
+            margin: 3px;
+        }
+
+        
+   
+
+   .punching_time {
+    position: absolute;
+    width: 87%;
+    top: 293px;
+    z-index: 11;
+}
+.punchingcard {
+   
+     min-height: 0px !important;
+  
+}

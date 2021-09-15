@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"> tototototo
+                                <div class="col-md-12"> 
                                     <p class="sub_section_heading">
                                     <h4><b><u>Contact Details</u> </b></h4>
                                     </p>
@@ -169,7 +169,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+
+                                 <div class="col-md-4">    
+                                    <label for="" class="">State</label>
+                                    <div class="form-group">
+                                        <select name="selectstate2"  id="selectstate2" class="selectpicker" value="{{ old('allState') }}">
+                                            <option value="">Select State</option>
+                                            @foreach($allState as $st)
+                                            <option {{ $st->state_code == $employee->state ? 'selected' : '' }} value="{{ $st->state_code }}">{{ $st->state_name }}</option>
+                                           @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                               {{-- <!-- <div class="col-md-4">
                                     <label for="" class="">City</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -177,10 +190,26 @@
                                                 value="{{ $employee->city }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --> --}}
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+
+                               <div class="col-md-4">
+                                      <label for="" class="">City</label>
+                                            <div class="form-group"  >
+                                                <input type="hidden" id="city_id" value="{{ $employee->city }}">
+                                                <select name="selectcity2" id="select_cities2" class="selectpicker" value="{{ old('department') }}">
+                                                    <option value="">Select City</option>
+                                                    @foreach($city as $ct)
+                                                  
+                                                    <option {{ $ct->id == $employee->city ? 'selected' : '' }} value="{{ $employee->city }}">{{ $ct->city_name }}</option>
+                                                   @endforeach
+                                                   
+                                                </select>
+                                            </div>
+                                   </div>
+
+                                {{-- <!-- <div class="col-md-4">
                                     <label for="" class="">State</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -188,7 +217,7 @@
                                                 value="{{ $employee->state }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --> --}}
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -202,12 +231,10 @@
                                 <div class="col-md-4">
                                     <label for="" class="required">Department</label>
                                     <div class="form-group">
-                                        {{-- <select class="form-control show-tick" data-live-search="true" name="department">
-                                        <option value="">Select Department</option>
-                                        
-                                    </select> --}}
         
-                                        <select name="department" class="selectpicker" value="">
+                                    
+                                        <select name="department" class="selectpicker"  id="department2"value="">
+                                        
                                             <option value="">select department</option>
                                             @foreach ($departments as $department)
                                                 <option {{ $department->id == $employee->department_id ? 'selected' : '' }}
@@ -220,7 +247,8 @@
                                 <div class="col-md-4">
                                     <label for="" class="required">Designation</label>
                                     <div class="form-group">
-                                        <select name="designation" class="form-control " name="designation" value="">
+                                        <input type="hidden" id="desig_id" value="{{ $employee->designation_id }}">
+                                        <select name="designation" class="form-control " id="designation2" class="selectpicker" name="designation" value="">
                                             <option value="">select designation</option>
                                             @foreach ($designations as $designation)
                                                 <option {{ $designation->id == $employee->designation_id ? 'selected' : '' }}
@@ -276,7 +304,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="">Account Name</label>
+                                    <label for="">Account Holder Name</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="bank_account_name" class="form-control"
@@ -284,7 +312,18 @@
                                                 value="{{ $employee->bank_account_name }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div>	
+                                  <div class="col-md-4">
+                                    <label for="">Bank Name</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" name="bank_name" class="form-control"
+                                                placeholder="Enter Account Name"
+                                                value="{{ $employee->bank_name }}">
+                                        </div>
+                                    </div>
+                                </div>										
+								
                                 <div class="col-md-4">
                                     <label for="">Account Number</label>
                                     <div class="form-group">
@@ -294,7 +333,9 @@
                                                 value="{{ $employee->bank_account_number }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div>	
+								</div>                                 
+								<div class="row">
                                 <div class="col-md-4">
                                     <label for="">IFSC code</label>
                                     <div class="form-group">
@@ -303,8 +344,9 @@
                                                 placeholder="Enter Account Name" value="{{ $employee->bank_ifsc_code }}">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>     
+								</div>
+                            
                             <div class="row">
 
                                 <div class="col-md-6">

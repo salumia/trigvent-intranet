@@ -17,9 +17,9 @@ class AdminHrMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Gate::none(['isAdmin','isHr'])){
-            abort(404);
-        }
+        // if(Gate::none(['isAdmin','isHr'])){
+        //     abort(404);
+        // }
         return $next($request);
     }
 }

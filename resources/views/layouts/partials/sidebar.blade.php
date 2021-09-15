@@ -59,8 +59,8 @@
                     </a>
                 </li>
 
-
-                @canany(['isAdmin', 'isHr'])
+                {{-- @canany(['isAdmin', 'isHr']) --}}
+                 @can(['isHrOrAdmin'])  
                     <li {{ Route::is('addEmployee') || Route::is('employeesListing') ? 'class=active' : '' }}>
                         <a {{ Route::is('addEmployee') || Route::is('employeesListing') ? 'class=toggled' : '' }}
                             href="javascript:void(0);" class="menu-toggle waves-effect waves-block  ">
@@ -81,7 +81,8 @@
                             </li>
                         </ul>
                     </li>
-                @endcanany
+                  @endcan 
+                   {{-- @endcanany --}}
 
                 {{-- employee details --}}
                 {{-- <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
@@ -98,12 +99,19 @@
                         </li>
                       
                     </ul> --}}
+                    <li {{ Route::is('attendence') ? 'class=active' : '' }}>
+                        <a href="{{ route('attendence') }}">
+                            <i class="material-icons">person</i>
+                            <span>Attendence Management</span>
+                        </a>
+                    </li>
                 <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
                     <a href="{{ route('employeeDetails') }}">
                         <i class="material-icons">person</i>
                         <span>My Profile</span>
                     </a>
                 </li>
+               
 
                 {{-- </li> --}}
 

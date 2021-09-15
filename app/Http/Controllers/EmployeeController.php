@@ -11,6 +11,7 @@ use App\Models\Designation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 
 class EmployeeController extends Controller
@@ -30,15 +31,27 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function ajaxCall(){
+        
+      
+         $st_code = $_REQUEST['state_code'];
+        
+         $allCity = DB::table('all_cities')->where('state_code',$st_code)->get();
+         return $allCity;
 
+    }
+    public function designationAjax(){
+        $dept_id = $_REQUEST['dept_id'];
+        $allDes = DB::table('designations')->where('department', $dept_id)->get();
+        return $allDes;
+    }
     public function add()
     {
         $departments = Department::where('status', 1)->get();
         $designations = Designation::where('status', 1)->get();
-        // if(Gate::none(['isAdmin','isHr'])){
-        //     abort(404);
-        // }
-        return view('layouts.employees.add-employee', compact('departments', 'designations'));
+         $allState = DB::table('all_states')->select('state_name','state_code')->get();
+        
+        return view('layouts.employees.add-employee', compact('departments', 'designations','allState'));
     }
 
 
@@ -52,14 +65,17 @@ class EmployeeController extends Controller
             'mobile_number' => 'required|max:15',
             'alternate_number' => 'max:15',
             'bank_ifsc_code' => 'max:15',
+			'bank_name' => 'max:100',
             'bank_account_number' => 'max:30',
             'department' => 'required',
             'designation' => 'required',
             'joining_date' => 'required',
-            'password' => 'required',
+            // 'password' => 'required',
             'image' => 'mimes:png,jpeg,jpg,gif,svg',
 
         ]);
+
+         $pass = randomPassword();
 
         $notes = [];
         foreach ($request->notes as  $note) {
@@ -97,7 +113,7 @@ class EmployeeController extends Controller
             $user->image = $image_name;
         }
 
-
+      
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->father_name = $request->father_name;
@@ -108,13 +124,19 @@ class EmployeeController extends Controller
         $user->mobile_no = $request->mobile_number;
         $user->alternate_no = $request->alternate_number;
         $user->address = $request->address;
-        $user->city = $request->city;
-        $user->state = $request->state;
+
+        // $user->city = $request->city;
+        // $user->state = $request->state;
+
+        $user->city = $request->selectcity;   // edit in selection
+        $user->state = $request->selectstate;
+
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
         $user->joining_date = $request->joining_date;
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($pass);
         $user->bank_account_name = $request->bank_account_name;
+		$user->bank_name = $request->bank_name;
         $user->bank_account_number = $request->bank_account_number;
         $user->bank_ifsc_code = $request->bank_ifsc_code;
         $user->notes = $notes;
@@ -125,31 +147,71 @@ class EmployeeController extends Controller
         } else {
             $user->username = strtolower($username[0]);
         }
+		  $this->email( $user->personal_email_address, $user->username,$pass,  $user->first_name);
         $user->save();
 
-        return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully');
+      //  return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully');
+         return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully. ( Hello, '. $user->first_name.'  Your Username : '. $user->username.',   Password : '.$pass.' )');
 
+    }
+	
+	//confirmation mail
+	public function email($mail , $uname , $upass , $fname)
+    {
+        $email['to'] = $mail;
+        $data=['uname'=>$uname ,'upass'=>$upass,'fname'=>$fname];
+        Mail::send('layouts.employees.mail',  $data,function ($message) use ($email) {
+            $message->from('trigventintranet@gmail.com', 'Trigvent');
+            $message->subject('Welcome to trigvent family');
+            $message->to($email['to']);
+        });
+        
+    
     }
 
     public function listing()
     {
-        $employees = DB::table('users')
+        $user = auth()->user();
+        if($user->role == 0){
+            $employees = DB::table('users')
             ->join('designations', 'designations.id', '=', 'users.designation_id')
             ->join('departments', 'departments.id', '=', 'users.department_id')
             ->select('users.*', 'departments.department_name', 'designations.designation_name')
             ->get();
+
+        }else{
+            $employees = DB::table('users')->where('role',2)
+            ->join('designations', 'designations.id', '=', 'users.designation_id')
+            ->join('departments', 'departments.id', '=', 'users.department_id')
+            ->select('users.*', 'departments.department_name', 'designations.designation_name')
+            ->get();
+        }
+       
+
+           
         return view('layouts.employees.employees-listing', compact('employees'));
     }
 
     public function edit($id)
     {
-        $employee = User::find($id);
+        
+     
+
+        $user = auth()->user();
+        if($user->role == 0){
+            $employee = User::find($id);
+        }else{
+            $employee = DB::table('users')->where('id',$id)->where('role',2)->get();   // ->whereIn('id', [1, 2, 3])
+            $employee =  $employee[0];
+        }
+       
+
         $departments = Department::where('status', 1)->get();
         $designations = Designation::where('status', 1)->get();
-        // if(Gate::none(['isAdmin','isHr'])){
-        //     abort(404);
-        // }
-        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee'));
+        $allState = DB::table('all_states')->get();
+        $city = DB::table('all_cities')->get();
+
+        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee','allState','city'));
     }
 
     public function updateEmployee(Request $request, $id)
@@ -159,7 +221,11 @@ class EmployeeController extends Controller
             'dob' => 'required',
             'gender' => 'required',
             'personal_email_address' => 'required',
-            'mobile_number' => 'required',
+            'mobile_number' => 'required|max:15',
+			 'alternate_number' => 'max:15',
+            'bank_ifsc_code' => 'max:15',
+            'bank_name' => 'max:100',
+            'bank_account_number' => 'max:30',
             'department' => 'required',
             'designation' => 'required',
             'joining_date' => 'required',
@@ -199,8 +265,11 @@ class EmployeeController extends Controller
         $user->mobile_no = $request->mobile_number;
         $user->alternate_no = $request->alternate_number;
         $user->address = $request->address;
-        $user->city = $request->city;
-        $user->state = $request->state;
+       // $user->city = $request->city;
+       // $user->state = $request->state;
+	    $user->city = $request->selectcity2;  
+        $user->state = $request->selectstate2;
+	   
         $user->employee_code = $request->employee_id;
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
@@ -210,6 +279,7 @@ class EmployeeController extends Controller
         }
 
         $user->bank_account_name = $request->bank_account_name;
+		$user->bank_name = $request->bank_name;
         $user->bank_account_number = $request->bank_account_number;
         $user->bank_ifsc_code = $request->bank_ifsc_code;
         $user->notes = $notes;
@@ -261,11 +331,22 @@ class EmployeeController extends Controller
              }
         }else{
               // dd("Current Password is Correct");
-              return redirect(route('changePassword'))->with('error', 'Current Password is Incorrect ! ');
+              return redirect(route('changePassword'))->with('error', ' Password is Incorrect ! ');
         }
     
       }
 
+}
+
+function randomPassword() {
+    $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789#@!";
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
 }
 
 
