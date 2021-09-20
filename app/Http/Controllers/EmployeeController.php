@@ -45,6 +45,46 @@ class EmployeeController extends Controller
         $allDes = DB::table('designations')->where('department', $dept_id)->get();
         return $allDes;
     }
+
+    public function attendenceAjax(){ 
+        $da = $_REQUEST['dates'];
+        $emp_id = $_REQUEST['emp_id'];
+        $st = $_REQUEST['statusOfAtteendence'];
+        $in_out = $_REQUEST['in_out'];
+       // $out = $_REQUEST['out_time'];
+ 
+  
+
+        DB::table('attendence')->insert(
+            array(
+                   'employee_id'     =>  $emp_id, 
+                   'status'   =>  $st,
+                   'date'   =>  $da,
+                  
+            )
+       );
+        
+          $attend_id = DB::table('attendence')->where('employee_id',$emp_id)->where('date',$da)->select('id')->first();
+
+        $value = "";
+        if(count($in_out)>0){
+            for($i = 0; $i < count($in_out[0]); $i++){            
+               //  $value .= " IN Time: " . $in_out[0][$i] . ' Out Time: ' . $in_out[1][$i];
+                 DB::table('in_outs')->insert(
+                                array(
+                                       'attendence_id'     =>  $attend_id->id, 
+                                       'punch_in'   =>  $in_out[0][$i],
+                                       'punch_out'   =>  $in_out[1][$i],
+                                      
+                                )
+                           );
+            }
+        }
+      // return $value . "\t" . $emp_id;
+      return $attend_id;
+
+    }
+
     public function add()
     {
         $departments = Department::where('status', 1)->get();
@@ -269,8 +309,14 @@ class EmployeeController extends Controller
        // $user->state = $request->state;
 	    $user->city = $request->selectcity2;  
         $user->state = $request->selectstate2;
+
+        $emplpyee_code = User::max('employee_code');
+        if ($emplpyee_code == null) {
+            $emplpyee_code = 1000;
+        }
 	   
-        $user->employee_code = $request->employee_id;
+        $user->employee_code = $emplpyee_code + 1;
+
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
         $user->joining_date = $request->joining_date;
@@ -301,7 +347,13 @@ class EmployeeController extends Controller
         $user = auth()->user();
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $designation = DB::table('designations')->where('id', $user->designation_id)->select('designation_name')->get()->first();
-        return view('layouts.employees.employee-details', compact('department' ,'designation'));
+      
+        $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
+        $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
+        
+       // dd($get_city);
+       
+        return view('layouts.employees.employee-details', compact('department' ,'designation','get_state','get_city'));
       }
 
       public function viewPassword(Request $req){

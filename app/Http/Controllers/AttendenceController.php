@@ -27,5 +27,10 @@ class AttendenceController extends Controller
         return view('layouts.employees.attendence',compact('employees','desig','des','yesterday'));
     }
 
+    public function viewattendence(){
+
+return view('layouts.employees.view-attendence');
+    }
+
     
 }

@@ -96,3 +96,23 @@
      min-height: 0px !important;
   
 }
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+   display: none;
+   
+  }
+  .time-picker {
+    font-size: 13px;
+    padding: 0px;
+    text-align: center;
+  }
+  .pha_status{
+    margin-bottom: 13px;
+    margin-top: 18px;
+    height: 51px; 
+    display:none;
+    background-color:#2b982b ;
+    position: relative;
+    border-radius: 2px;
+  }
+ 

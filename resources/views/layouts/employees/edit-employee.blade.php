@@ -182,15 +182,7 @@
                                     </div>
                                 </div>
 
-                               {{-- <!-- <div class="col-md-4">
-                                    <label for="" class="">City</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="city" class="form-control" placeholder="Enter City"
-                                                value="{{ $employee->city }}">
-                                        </div>
-                                    </div>
-                                </div> --> --}}
+                              
                             </div>
                             <div class="row">
 

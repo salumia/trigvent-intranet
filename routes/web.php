@@ -51,8 +51,11 @@ Route::group(['middleware'=>'auth'],function(){
 	    Route::post('/employee/update/{id}',[EmployeeController::class, 'updateEmployee'])->name('updateEmployee');
 		Route::get('/employee/delete/{id}',[EmployeeController::class, 'delete'])->name('deleteEmployee');
 		Route::post('/employee/ajax',[EmployeeController::class,'ajaxCall'])->name('ajaxCall');
-		Route::get('/employee/attendence',[AttendenceController::class, 'attendence'])->name('attendence');
+		Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
+		Route::get('/employee/viewattendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
 		Route::post('/employee/designationAjax',[EmployeeController::class,'designationAjax'])->name('designationAjax');
+		Route::post('/employee/attendenceAjax',[EmployeeController::class,'attendenceAjax'])->name('attendenceAjax');
+		
 		
 	});
 
