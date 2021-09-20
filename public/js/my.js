@@ -618,7 +618,7 @@ $(document).ready(function() {
                 var sel_city = " <select name='selectcity' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function(item, index) {
                     console.log(index + " : " + item['city_name'] + " " + item['id']);
-                    sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option>";
+                    sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
                 });
 
                 $("#select_cities").html(sel_city).selectpicker('refresh');
@@ -645,7 +645,7 @@ $(document).ready(function() {
                 var sel_city = " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function(item, index) {
                     // console.log(index + " : "+item['city_name'] + " " + item['id']);
-                    sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option>";
+                    sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
                 });
 
                 $("#select_cities2").html(sel_city).selectpicker('refresh');
@@ -675,7 +675,7 @@ $(document).ready(function() {
 
                 var sel_city = " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function(item, index) {
-                    sel_city += "<option  value=" + item['id'] + ">" + item['city_name'] + "</option>";
+                    sel_city += "<option  value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
                    // console.log(index + " : "+item['city_name'] + " " + item['id']);
                 });
 
@@ -712,8 +712,11 @@ $(document).ready(function() {
         $(this).parents(".col-sm-3").find(".punching_time").append(new_punch).slideDown("slow");
 
     });
+  
+     
 
    
+
 
     $(".present").click(function() {
         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
@@ -741,21 +744,16 @@ $(document).ready(function() {
          
 
         $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
-              console.log($(item).val());
+             // console.log($(item).val());
               in_time[index] = $(item).val();
          });
         $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
-                console.log($(item).val());
+               // console.log($(item).val());
                 out_time[index] = $(item).val();
         });
 
          var in_out = [in_time,out_time];
-        //  var in_out = {
-        //        "intime": in_time,
-        //        "outtime": out_time
-        //     };
-
-        //  var arr = { "Company Name": ‘Flexiple’, "ID": 123}; 
+       
 
         console.log("array In time : "+ in_time);
         console.log("array Out Time : "+ out_time);
@@ -781,7 +779,11 @@ $(document).ready(function() {
                         },
                 success: function(response) {
                     console.log(response) ;
-                   
+                    
+                    // //$(this).parents(".col-sm-3").find(".mypha_status1").show();
+                    // var pr = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
+                    // $(this).parents(".col-sm-3").find(".mypha_status1").html(pr).show();
+                    
                 }
             });
 
@@ -793,6 +795,10 @@ $(document).ready(function() {
             $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#1f91f3');
 
             console.log($(this).parents(".col-sm-3").find('.halfday').attr('data'));
+             console.log('jitendera ');
+            // console.log(dates);
+            // console.log(emp_id);
+          
 
             $.ajax({
                 type: 'POST',
@@ -804,23 +810,46 @@ $(document).ready(function() {
                          dates: dates,                         
                          emp_id: emp_id,
                          statusOfAtteendence: statusOfAtteendence,
-                         in_time: in_time,
-                         out_time: out_time,
+                         in_out: in_out
                         },
                 success: function(response) {
-                    console.log("hey : "+ response) ;
+                    console.log(response) ;
                    
                 }
             });
 
         }else{
-
+           
         }
       
       
 
     });
 
+  if($("#status0").val() == 0){
+      var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+      
+      $(".mypha_status").html(abs).show();
+      $(".mypha_status").parent("div").find(".pha_button").hide();
+    
+    
+  }
+  if($("#status1").val() == 1){
+      var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
+      
+      $(".mypha_status1").html(abs).show();
+      $(".mypha_status1").parent("div").find(".pha_button").hide();
+    
+    
+  }
+  if($("#status2").val() == 2){
+    var sts = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
+      
+      $(".mypha_status2").html(sts).show();
+      $(".mypha_status2").parent("div").find(".pha_button").hide();
+    
+    
+  }
 
    
 
@@ -832,37 +861,50 @@ $(document).ready(function() {
         
        
          $(this).parents(".col-sm-3").find('.done_punch').attr('data',2);
-         
-        //  var in_time = new Array();
-        //  var out_time = new Array();
-         
-
-        // $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
-        //       console.log($(item).val());
-        //       in_time[index] = $(item).val();
-        //  });
-        // $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
-        //         console.log($(item).val());
-        //         out_time[index] = $(item).val();
-        // });
-
-        // console.log("array In time : "+ in_time);
-        // console.log("array Out Time : "+ out_time);
+     
 
     });
       $(".absent").click(function(){  //  // using if employee is absent    
 
-           // $(this).parents(".col-sm-3").find(".absent").text("Done");
-            
            
+
             $(this).parents(".col-sm-3").find('.done_punch').attr('data',0);
             if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 0){
                 var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
                 $(this).parents(".col-sm-3").find(".pha_button").hide();
                 $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
                 $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#fb483a');
+
+                var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
+                var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
+                var statusOfAtteendence = $(this).parents(".col-sm-3").find('.done_punch').attr('data');
+               
+
+               $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost/hrms/employee/attendenceAjax',
+                
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+                           
+                            data: { 
+                                     dates: dates,                         
+                                     emp_id: emp_id,
+                                     statusOfAtteendence: statusOfAtteendence
+                                    
+                                    },
+                            success: function(response) {
+                                console.log(response) ;
+                                
+                               
+                            }
+                        });
+
             }
             $(this).parents(".col-sm-3").find(".punching_time").slideUp("slow").html();
+
+
+
+
             
       });
 
@@ -900,7 +942,7 @@ $(document).ready(function() {
                 var sel_desig = " <select name='designation' class='selectpicker'><option value=''>Select Designation</option> ";
                 response.forEach(function(item, index) {
                     // console.log(item);
-                    sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option>";
+                    sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option></select>";
                 });
 
                 $("#designation").html(sel_desig).selectpicker('refresh');
@@ -931,7 +973,7 @@ $(document).ready(function() {
                 var sel_desig = " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
                 response.forEach(function(item, index) {
                     // console.log(item);
-                    sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option>";
+                    sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option></select>";
                 });
 
                 $("#designation2").html(sel_desig).selectpicker('refresh');

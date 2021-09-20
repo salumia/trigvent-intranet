@@ -65,13 +65,41 @@
                                 @endfor
                                
                             </p>
-                            
+                           
                              <div class="pha_button">                             
                                 <button type="button" id="present" class="btn btn-success present done" data="1">Present</button>
                                 <button type="button" id="halfday" class="btn btn-primary halfday" data="2">Half Day</button>
                                 <button type="button" id="absent" class="btn btn-danger absent" data="0">Absent</button>
                                 
                             </div>
+                           
+                           
+                              @foreach ($attendence as  $item)
+                                @if($employee->id == $item->employee_id )
+                                  
+                                      
+                                        @if($item->status == 0) 
+                                       
+                                         <input type="hidden" id="status0" value="{{$item->status}}">
+                                         <div class="text-center mypha_status" style=""></div>              
+                                        @elseif($item->status == 1)
+                                        <input type="hidden" id="status1" value="{{$item->status}}">
+                                        
+                                        <div class="text-center mypha_status1" style=""></div>  
+                                         
+                                        @else
+                                        
+                                        <input type="hidden" id="status2" value="{{$item->status}}">
+                                        <div class="text-center mypha_status2" style=""></div> 
+                                      
+                                        @endif
+                                       
+                              
+                                
+                                @endif
+                              @endforeach
+
+                            
                             <div class="pha_status  text-center" style=""><span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span></div>              
                            </div>
                           
