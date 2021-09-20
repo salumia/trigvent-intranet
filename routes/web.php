@@ -53,6 +53,8 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::post('/employee/ajax',[EmployeeController::class,'ajaxCall'])->name('ajaxCall');
 		Route::get('/employee/attendence',[AttendenceController::class, 'attendence'])->name('attendence');
 		Route::post('/employee/designationAjax',[EmployeeController::class,'designationAjax'])->name('designationAjax');
+		Route::post('/employee/attendenceAjax',[EmployeeController::class,'attendenceAjax'])->name('attendenceAjax');
+		
 		
 	});
 

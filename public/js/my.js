@@ -656,10 +656,14 @@ $(document).ready(function() {
 
 
     });
+    
 
     if ($('#selectstate2').val() != "") {
+    
+       
 
-        var id = $("#city_id").val();
+        var cid = $("#city_id").val();
+       
         var state_code = ($('#selectstate2').val());
         $.ajax({
             type: 'POST',
@@ -672,10 +676,11 @@ $(document).ready(function() {
                 var sel_city = " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function(item, index) {
                     sel_city += "<option  value=" + item['id'] + ">" + item['city_name'] + "</option>";
+                   // console.log(index + " : "+item['city_name'] + " " + item['id']);
                 });
 
                 $("#select_cities2").html(sel_city).selectpicker('refresh');
-                $("#select_cities2").val(id).selectpicker('refresh');
+                $("#select_cities2").val(cid).selectpicker('refresh');
 
             }
         });
@@ -683,14 +688,6 @@ $(document).ready(function() {
 
 
 
-
-    // $('.present').on('change', function() {
-    //        console.log($(this).val());
-    // });
-
-    $(".present").click(function() {
-        $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
-    });
 
     $(".add_new_punch").click(function() {
         //  console.log('hey arya');
@@ -701,12 +698,12 @@ $(document).ready(function() {
                             <form action="">
                             <input type="hidden" id="present_emp_id">
                             <div class="col-md-6">
-                            <input type="time" style="font-size: 10px;" name="last_name" class="form-control" placeholder="In Time" value="">            
+                            <input type="time" id="intime" style="" name="last_name" class="form-control time-picker intime" placeholder="In Time" value="">            
                             </div>
                             <div class="col-md-6" style="margin-left:-20px; position:relative;">
-                            <input type="time" style="font-size: 10px;" name="last_name" class="form-control" placeholder="Out Time" value="">
+                            <input type="time" id="outtime" style="" name="last_name" class="form-control time-picker outtime" placeholder="Out Time" value="">
                             </div>   
-                            <div style="position:absolute;margin-top:5px; margin-left: 186px;" class="remove_new_punch" id="remove_new_punch1"><i class="fa fa-minus-circle" style="font-size: 22px; color:red;"></i></div>
+                            <div style="position:absolute;margin-top:5px; margin-left: 186px;" class="remove_new_punch " id="remove_new_punch1"><i class="fa fa-minus-circle" style="font-size: 22px; color:red;"></i></div>
 
 
                             </div>`;
@@ -716,23 +713,158 @@ $(document).ready(function() {
 
     });
 
+   
 
+    $(".present").click(function() {
+        $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
+       
+        $(this).parents(".col-sm-3").find(".present").css('background-color','yellow');
+       
+        $(this).parents(".col-sm-3").find('.done_punch').attr('data',1);
+        
+        console.log($(this).parents(".col-sm-3").find('.done_punch').attr('data',1));
+          
+
+    });
 
     $(".done_punch").click(function() {
         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow").html();
-        $(this).parents(".col-sm-3").find(".done").text("Done");
+       // $(this).parents(".col-sm-3").find(".done").text("Done");
+        
+        console.log("Data Attribute Id : " + $(this).parents(".col-sm-3").find('.done_punch').attr('data'));
+  
+        var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
+        var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
+        var statusOfAtteendence = $(this).parents(".col-sm-3").find('.done_punch').attr('data');
+        var in_time = new Array();
+        var out_time = new Array();
+         
+
+        $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
+              console.log($(item).val());
+              in_time[index] = $(item).val();
+         });
+        $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
+                console.log($(item).val());
+                out_time[index] = $(item).val();
+        });
+
+         var in_out = [in_time,out_time];
+        //  var in_out = {
+        //        "intime": in_time,
+        //        "outtime": out_time
+        //     };
+
+        //  var arr = { "Company Name": ‘Flexiple’, "ID": 123}; 
+
+        console.log("array In time : "+ in_time);
+        console.log("array Out Time : "+ out_time);
+
+        if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 1){  // using if employee is present
+            $(this).parents(".col-sm-3").find(".pha_status").show();
+            $(this).parents(".col-sm-3").find(".pha_button").hide();
+            console.log($(this).parents(".col-sm-3").find('.present').attr('data'));
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost/hrms/employee/attendenceAjax',
+    
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+               
+                data: { 
+                         dates: dates,                         
+                         emp_id: emp_id,
+                         statusOfAtteendence: statusOfAtteendence,
+                         in_out: in_out
+                        
+                        
+                        },
+                success: function(response) {
+                    console.log(response) ;
+                   
+                }
+            });
+
+
+        }else if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 2){       // using if employee is present but for half day only    
+            var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
+            $(this).parents(".col-sm-3").find(".pha_button").hide();
+            $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+            $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#1f91f3');
+
+            console.log($(this).parents(".col-sm-3").find('.halfday').attr('data'));
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost/hrms/employee/attendenceAjax',
+    
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+               
+                data: { 
+                         dates: dates,                         
+                         emp_id: emp_id,
+                         statusOfAtteendence: statusOfAtteendence,
+                         in_time: in_time,
+                         out_time: out_time,
+                        },
+                success: function(response) {
+                    console.log("hey : "+ response) ;
+                   
+                }
+            });
+
+        }else{
+
+        }
+      
+      
+
     });
+
+
+   
 
     $(".halfday").click(function() {
+        $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
+        console.log($(this).parents(".col-sm-3").find("#hiddenDate").val());
+        console.log($(this).parents(".col-sm-3").find("#present_emp_id").val());
+        
+        
+       
+         $(this).parents(".col-sm-3").find('.done_punch').attr('data',2);
+         
+        //  var in_time = new Array();
+        //  var out_time = new Array();
+         
 
-        $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow").html();
-        // $(this).parents(".col-sm-3").find(".punching_time").children(".halfday").text("done");
-        // $(this).parents(".col-sm-3").find(".halfday").text("Done");
+        // $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
+        //       console.log($(item).val());
+        //       in_time[index] = $(item).val();
+        //  });
+        // $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
+        //         console.log($(item).val());
+        //         out_time[index] = $(item).val();
+        // });
+
+        // console.log("array In time : "+ in_time);
+        // console.log("array Out Time : "+ out_time);
+
     });
-    //   $(".absent").click(function(){
+      $(".absent").click(function(){  //  // using if employee is absent    
 
-    //         $(this).parents(".col-sm-3").find(".absent").text("Done");
-    //   });
+           // $(this).parents(".col-sm-3").find(".absent").text("Done");
+            
+           
+            $(this).parents(".col-sm-3").find('.done_punch').attr('data',0);
+            if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 0){
+                var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+                $(this).parents(".col-sm-3").find(".pha_button").hide();
+                $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+                $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#fb483a');
+            }
+            $(this).parents(".col-sm-3").find(".punching_time").slideUp("slow").html();
+            
+      });
 
     $(document).on('click', '.remove_new_punch', function() {
         console.log('jiten');
@@ -756,9 +888,6 @@ $(document).ready(function() {
 
     $('#department').on('change', function() {
         var dept_id = $(this).val();
-        // alert(dept_id);
-
-
         $.ajax({
             type: 'POST',
             url: 'http://localhost/hrms/employee/designationAjax',
@@ -847,14 +976,6 @@ $(document).ready(function() {
 
 
     }
-
-
-    //--------------------------------------------------------------------------------
-    // $('#input_starttime').pickatime({
-    //     // 12 or 24 hour
-    //     twelvehour: true,
-    // });
-
 
 });
 
