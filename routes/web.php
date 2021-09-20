@@ -54,7 +54,7 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
 		Route::get('/employee/viewattendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
 		Route::post('/employee/designationAjax',[EmployeeController::class,'designationAjax'])->name('designationAjax');
-		Route::post('/employee/attendenceAjax',[EmployeeController::class,'attendenceAjax'])->name('attendenceAjax');
+		Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
 		
 		
 	});
