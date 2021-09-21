@@ -69,8 +69,23 @@ class AttendenceController extends Controller
     }
 
     public function viewattendence(){
-        $employees = DB::table('users')->select('first_name','last_name')->get();
+        $employees = DB::table('users')->select('first_name','last_name','id')->get();
 return view('layouts.employees.view-attendence',compact('employees'));
+    }
+
+
+    public function viewattendenceajax(){
+
+        $id = $_REQUEST['id'];
+        
+         $emp_det = DB::table('attendence')->where('employee_id',$id)
+        ->join('in_outs','in_outs.attendence_id','=','attendence.id')
+        ->join('users','attendence.employee_id','=','users.id')
+        ->join('designations', 'designations.id', '=', 'users.designation_id')
+        ->select('in_outs.*','attendence.date', 'in_outs.punch_in','in_outs.punch_out','users.first_name','users.last_name','attendence.status','designations.designation_name')
+        ->get();
+     
+        return  $emp_det;
     }
 
     

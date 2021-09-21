@@ -42,14 +42,16 @@
                             <div class="col-md-6">
                                 
                                         <div class="form-group"  >
-                                            <select name="selectname" id="select_name" class="selectpicker" value="{{ old('department') }}">
-                                                <option value="">Select Employee Name</option>
+                                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                                    
+
+                                            <select class="selectname" name="state">
+                                                <option value="">select name</option>
                                                 @foreach ($employees as $employee) 
-                                                    {{-- <option {{ old('department') == $dep->id ? 'selected' : '' }} --}}
-                                                        <option
-                                                        value="">{{ $employee->first_name ." ". $employee->last_name }}</option> 
+                                                    
+                                                <option value="{{$employee->id}}"> {{$employee->id}} {{ $employee->first_name ." ". $employee->last_name }}</option> 
                                                  @endforeach 
-                                            </select>
+                                              </select>
                                         </div>
                                </div>
                                <div class="col-md-6">
@@ -65,11 +67,16 @@
                                     </select>
                                 </div>
                        </div>
-
+                     
 
                         </div>
-
-
+                      <div class="row">
+                          <div class="col-sm-12 text-center bg-warning attendence_table">
+                            <h1>Select the employee name </h1>
+                            
+                          </div>
+                      </div>
+                        
 
 
 
@@ -91,7 +98,9 @@
 
 
 @section('extra-script')
-
+    <script>
+        // $('.selectname').select2();
+    </script>
 
 
 

@@ -2,6 +2,8 @@ $(document).ready(function() {
 
     var count = 2;
 
+    $('.selectname').select2();
+
     $(".addField").click(function() {
 
         $(".fieldsWrap").append(
@@ -605,7 +607,7 @@ $(document).ready(function() {
 
     $('#selectstate').on('change', function() {
         var state_code = $(this).val();
-        console.log("hey ankit");
+        // console.log("hey ankit");
 
         $.ajax({
             type: 'POST',
@@ -656,14 +658,14 @@ $(document).ready(function() {
 
 
     });
-    
+
 
     if ($('#selectstate2').val() != "") {
-    
-       
+
+
 
         var cid = $("#city_id").val();
-       
+
         var state_code = ($('#selectstate2').val());
         $.ajax({
             type: 'POST',
@@ -676,7 +678,7 @@ $(document).ready(function() {
                 var sel_city = " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function(item, index) {
                     sel_city += "<option  value=" + item['id'] + ">" + item['city_name'] + "</option>";
-                   // console.log(index + " : "+item['city_name'] + " " + item['id']);
+                    // console.log(index + " : "+item['city_name'] + " " + item['id']);
                 });
 
                 $("#select_cities2").html(sel_city).selectpicker('refresh');
@@ -687,12 +689,57 @@ $(document).ready(function() {
     }
 
 
+    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- - view attendence-----------------------------------
 
+
+
+
+    $('.selectname').on('change', function() {
+        var id = $(this).val();
+        console.log(id);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost/hrms/employee/viewattendenceajax',
+
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+            data: { id: id },
+            success: function(response) {
+                // console.log(response);
+                // var sel_city = " <select name='selectcity' class='selectpicker'><option value=''>Select City</option > ";
+                var attendence_det = `<table class='table table-striped'>
+                    <thead class="text-center">
+                        <tr>
+                            
+                            <th scope='col'>Date</th>
+                            <th scope='col'>status</th>
+                            <th scope='col'>Punch in</th>
+                            <th scope='col'>Punch_out</th>
+                            <th scope='col'>Designation</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center"> `;
+                response.forEach(function(item, index) {
+
+                    attendence_det += "<tr style='text-align:left;'><td>" + item['date'] + "</td><td>" + item['status'] + "</td><td>" + item['punch_in'] + "</td><td>" + item['punch_out'] + "</td><td>" + item['designation_name'] + "</td></tr>";
+
+                });
+
+                attendence_det += '</tbody></table>';
+                $(".attendence_table").html(attendence_det);
+
+            }
+        });
+
+
+
+    });
+
+
+
+    // -- -- -- -- -- -- -- -- -- -- -- -- -- --viewattendence end-----------------------------------------------------
 
     $(".add_new_punch").click(function() {
-        //  console.log('hey arya');
-
-        //  console.log( $(this).parents(".col-sm-3").find(".punching_time").html());
 
         var new_punch = ` <div class="row" style="padding: 10px; margin-top: -20px;" >                
                             <form action="">
@@ -713,43 +760,43 @@ $(document).ready(function() {
 
     });
 
-   
+
 
     $(".present").click(function() {
         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
-       
-        $(this).parents(".col-sm-3").find(".present").css('background-color','yellow');
-       
-        $(this).parents(".col-sm-3").find('.done_punch').attr('data',1);
-        
-        console.log($(this).parents(".col-sm-3").find('.done_punch').attr('data',1));
-          
+
+        $(this).parents(".col-sm-3").find(".present").css('background-color', 'yellow');
+
+        $(this).parents(".col-sm-3").find('.done_punch').attr('data', 1);
+
+        console.log($(this).parents(".col-sm-3").find('.done_punch').attr('data', 1));
+
 
     });
 
     $(".done_punch").click(function() {
         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow").html();
-       // $(this).parents(".col-sm-3").find(".done").text("Done");
-        
+        // $(this).parents(".col-sm-3").find(".done").text("Done");
+
         console.log("Data Attribute Id : " + $(this).parents(".col-sm-3").find('.done_punch').attr('data'));
-  
+
         var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
         var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
         var statusOfAtteendence = $(this).parents(".col-sm-3").find('.done_punch').attr('data');
         var in_time = new Array();
         var out_time = new Array();
-         
 
-        $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
-              console.log($(item).val());
-              in_time[index] = $(item).val();
-         });
-        $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
-                console.log($(item).val());
-                out_time[index] = $(item).val();
+
+        $(this).parents(".col-sm-3").find(".intime").each(function(index, item) {
+            console.log($(item).val());
+            in_time[index] = $(item).val();
+        });
+        $(this).parents(".col-sm-3").find(".outtime").each(function(index, item) {
+            console.log($(item).val());
+            out_time[index] = $(item).val();
         });
 
-         var in_out = [in_time,out_time];
+        var in_out = [in_time, out_time];
         //  var in_out = {
         //        "intime": in_time,
         //        "outtime": out_time
@@ -757,10 +804,10 @@ $(document).ready(function() {
 
         //  var arr = { "Company Name": ‘Flexiple’, "ID": 123}; 
 
-        console.log("array In time : "+ in_time);
-        console.log("array Out Time : "+ out_time);
+        console.log("array In time : " + in_time);
+        console.log("array Out Time : " + out_time);
 
-        if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 1){  // using if employee is present
+        if ($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 1) { // using if employee is present
             $(this).parents(".col-sm-3").find(".pha_status").show();
             $(this).parents(".col-sm-3").find(".pha_button").hide();
             console.log($(this).parents(".col-sm-3").find('.present').attr('data'));
@@ -768,74 +815,74 @@ $(document).ready(function() {
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost/hrms/employee/attendenceAjax',
-    
+
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
-               
-                data: { 
-                         dates: dates,                         
-                         emp_id: emp_id,
-                         statusOfAtteendence: statusOfAtteendence,
-                         in_out: in_out
-                        
-                        
-                        },
+
+                data: {
+                    dates: dates,
+                    emp_id: emp_id,
+                    statusOfAtteendence: statusOfAtteendence,
+                    in_out: in_out
+
+
+                },
                 success: function(response) {
-                    console.log(response) ;
-                   
+                    console.log(response);
+
                 }
             });
 
 
-        }else if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 2){       // using if employee is present but for half day only    
+        } else if ($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 2) { // using if employee is present but for half day only    
             var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
             $(this).parents(".col-sm-3").find(".pha_button").hide();
             $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
-            $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#1f91f3');
+            $(this).parents(".col-sm-3").find(".pha_status").css('background-color', '#1f91f3');
 
             console.log($(this).parents(".col-sm-3").find('.halfday').attr('data'));
 
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost/hrms/employee/attendenceAjax',
-    
+
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
-               
-                data: { 
-                         dates: dates,                         
-                         emp_id: emp_id,
-                         statusOfAtteendence: statusOfAtteendence,
-                         in_time: in_time,
-                         out_time: out_time,
-                        },
+
+                data: {
+                    dates: dates,
+                    emp_id: emp_id,
+                    statusOfAtteendence: statusOfAtteendence,
+                    in_time: in_time,
+                    out_time: out_time,
+                },
                 success: function(response) {
-                    console.log("hey : "+ response) ;
-                   
+                    console.log("hey : " + response);
+
                 }
             });
 
-        }else{
+        } else {
 
         }
-      
-      
+
+
 
     });
 
 
-   
+
 
     $(".halfday").click(function() {
         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
         console.log($(this).parents(".col-sm-3").find("#hiddenDate").val());
         console.log($(this).parents(".col-sm-3").find("#present_emp_id").val());
-        
-        
-       
-         $(this).parents(".col-sm-3").find('.done_punch').attr('data',2);
-         
+
+
+
+        $(this).parents(".col-sm-3").find('.done_punch').attr('data', 2);
+
         //  var in_time = new Array();
         //  var out_time = new Array();
-         
+
 
         // $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
         //       console.log($(item).val());
@@ -850,21 +897,21 @@ $(document).ready(function() {
         // console.log("array Out Time : "+ out_time);
 
     });
-      $(".absent").click(function(){  //  // using if employee is absent    
+    $(".absent").click(function() { //  // using if employee is absent    
 
-           // $(this).parents(".col-sm-3").find(".absent").text("Done");
-            
-           
-            $(this).parents(".col-sm-3").find('.done_punch').attr('data',0);
-            if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 0){
-                var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
-                $(this).parents(".col-sm-3").find(".pha_button").hide();
-                $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
-                $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#fb483a');
-            }
-            $(this).parents(".col-sm-3").find(".punching_time").slideUp("slow").html();
-            
-      });
+        // $(this).parents(".col-sm-3").find(".absent").text("Done");
+
+
+        $(this).parents(".col-sm-3").find('.done_punch').attr('data', 0);
+        if ($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 0) {
+            var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+            $(this).parents(".col-sm-3").find(".pha_button").hide();
+            $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+            $(this).parents(".col-sm-3").find(".pha_status").css('background-color', '#fb483a');
+        }
+        $(this).parents(".col-sm-3").find(".punching_time").slideUp("slow").html();
+
+    });
 
     $(document).on('click', '.remove_new_punch', function() {
         console.log('jiten');
