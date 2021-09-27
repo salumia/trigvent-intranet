@@ -24,6 +24,7 @@
         {{ Html::style('public/bsbmd/plugins/bootstrap-select/css/bootstrap-select.css') }}
         {{ Html::style('public/bsbmd/css/my.css') }}
         {{ Html::style('public/bsbmd/css/select2.min.css') }}
+        {{ Html::style('public/bsbmd/css/bootstrap-toggle.min.css') }}
 
         
         {{-- {{Html::style('public/bsbmd/plugins/bootstrap/css/bootstrap.min.css')}}
@@ -61,6 +62,7 @@
         {{Html::script('public/bsbmd/plugins/node-waves/waves.js')}} 
         
         {{Html::script('public/bsbmd/js/select2.min.js')}} 
+        {{Html::script('public/bsbmd/js/bootstrap-toggle.min.js')}} 
         {{Html::script('public/js/my.js?v=12')}} 
          
        

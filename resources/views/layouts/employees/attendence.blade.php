@@ -11,7 +11,7 @@
     {{-- <section class="content"> --}}
     <div class="container-fluid">
         <div class="block-header">
-            <h2> ATTENDENCE MANAGEMENT</h2>
+            <h2> ADD ATTENDENCE</h2>
         </div>
         <div class="row clearfix ">
 
@@ -29,6 +29,7 @@
                             <div class="row">
                                 <div class="col-sm-12 ">
                                    {{-- <span><b>{{ config('constants.yesterday')}}</b></span> --}}
+                                   {{-- <label for="date">Attendence date</label> --}}
                                    <input type="date" id="hiddenDate" style = "border: none;width:100%;" value="{{config('constants.yesterday')}}">
                                 </div>
                                
@@ -95,6 +96,7 @@
                                    
                                    <div style="position:absolute;margin-top:5px; margin-left: 186px;" id="add_new_punch"><i class="fa fa-plus-circle add_new_punch" style="font-size: 22px; color:green;"></i></div>
                                    <div style="position:absolute;margin-top:-21px; margin-left: 195px; " class="done_punch"><a href="javascript:void(0);"><i class="fa fa-check-square " style="font-size: 18px; color:#1f91f3 ;"></i></a></div>
+                                   
                                   </form>
                                   
                                 </div> 

@@ -25,7 +25,7 @@
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line {{ $errors->has('password') ? ' error' : '' }}">
-                <input type="password" value="FakePSW" id="myInput" class="form-control" name="password" placeholder="Password" required>
+                <input type="password" value="" id="myInput" class="form-control" name="password" placeholder="Password" required>
             </div>
             @if ($errors->has('password'))
                 <label id="name-error" class="error" for="name">{{ $errors->first('password') }}</label>
