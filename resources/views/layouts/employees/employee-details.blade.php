@@ -180,14 +180,13 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <h6 class="mb-0">City</h6>
-                                                    <span class="u-info"> {{ $get_city->city_name != '' ? $get_city->city_name : 'NA' }} </span>
-
-
+                                                    <span class="u-info">
+                                                        {{ Auth::user()->city != '' ? Auth::user()->city : 'NA' }}</span>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <h6 class="mb-0">State</h6>
                                                     <span class="u-info">
-                                                        {{ $get_state->state_name != '' ? $get_state->state_name : 'NA' }} 
+                                                        {{ Auth::user()->state != '' ? Auth::user()->state : 'NA' }}</span>
                                                 </div>
                                             </div>
                                         </div>

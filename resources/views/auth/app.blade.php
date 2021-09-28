@@ -41,7 +41,6 @@
         {{Html::script('public/bsbmd/plugins/jquery-validation/jquery.validate.js')}}
         {{Html::script('public/bsbmd/js/admin.js')}}
         {{Html::script('public/bsbmd/js/pages/examples/sign-in.js')}}
-        {{Html::script('public/js/my.js')}} 
     @show
 
 </body>

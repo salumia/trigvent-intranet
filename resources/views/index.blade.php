@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <title>Welcome To Trigvent-HRMS</title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-    
 
     <!-- Bootstrap Core Css -->
     @section('css')
@@ -23,8 +20,6 @@
         {{ Html::style('public/bsbmd/css/themes/all-themes.css') }}
         {{ Html::style('public/bsbmd/plugins/bootstrap-select/css/bootstrap-select.css') }}
         {{ Html::style('public/bsbmd/css/my.css') }}
-        {{ Html::style('public/bsbmd/css/select2.min.css') }}
-        {{ Html::style('public/bsbmd/css/bootstrap-toggle.min.css') }}
 
         
         {{-- {{Html::style('public/bsbmd/plugins/bootstrap/css/bootstrap.min.css')}}
@@ -60,11 +55,8 @@
         {{Html::script('public/bsbmd/plugins/bootstrap-select/js/bootstrap-select.js')}}
         {{Html::script('public/bsbmd/plugins/jquery-slimscroll/jquery.slimscroll.js')}}
         {{Html::script('public/bsbmd/plugins/node-waves/waves.js')}} 
-        
-        {{Html::script('public/bsbmd/js/select2.min.js')}} 
-        {{Html::script('public/bsbmd/js/bootstrap-toggle.min.js')}} 
-        {{Html::script('public/js/my.js?v=12')}} 
          
+        {{Html::script('public/js/my.js')}} 
        
 
     @show    
@@ -79,7 +71,6 @@
         {{Html::script('public/bsbmd/plugins/jquery-validation/jquery.validate.js')}}
         
         {{Html::script('public/bsbmd/js/pages/forms/form-wizard.js')}}
-        {{-- {{Html::script('public/js/my.js')}}  --}}
         {{-- {{Html::script('public/bsbmd/js/pages/forms/basic-form-elements.js')}} --}}
         {{-- {{Html::script('public/bsbmd/js/pages/forms/advanced-form-elements.js')}} --}}
         {{-- {{Html::script('public/bsbmd/plugins/jquery-steps/jquery.steps.min.js')} --}}
