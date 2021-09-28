@@ -59,8 +59,8 @@
                     </a>
                 </li>
 
-                {{-- @canany(['isAdmin', 'isHr']) --}}
-                 @can(['isHrOrAdmin'])  
+
+                @canany(['isAdmin', 'isHr'])
                     <li {{ Route::is('addEmployee') || Route::is('employeesListing') ? 'class=active' : '' }}>
                         <a {{ Route::is('addEmployee') || Route::is('employeesListing') ? 'class=toggled' : '' }}
                             href="javascript:void(0);" class="menu-toggle waves-effect waves-block  ">
@@ -81,8 +81,7 @@
                             </li>
                         </ul>
                     </li>
-                  @endcan 
-                   {{-- @endcanany --}}
+                @endcanany
 
                 {{-- employee details --}}
                 {{-- <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
@@ -99,54 +98,12 @@
                         </li>
                       
                     </ul> --}}
-
-                    {{-- <li {{ Route::is('attendence') ? 'class=active' : '' }}>
-                        <a href="{{ route('attendence') }}">
-                            <i class="material-icons">person</i>
-                            <span>Attendence Management</span>
-                        </a>
-                    </li> --}}
-
-
-
-                    <li {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=active' : '' }}>
-                        <a {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=toggled' : '' }}
-                            href="javascript:void(0);" class="menu-toggle waves-effect waves-block  ">
-                            <i class="material-icons">trending_down</i>
-                            <span>Attendence Management</span>
-                        </a>
-                        {{-- {{ old('designation') == $des->id ? 'selected' : '' }} --}}
-                        <ul class="ml-menu">
-                            <li {{ Route::is('addattendence') ? 'class=active' : '' }}>
-                                <a href="{{ route('addattendence') }}" class="nav-link  waves-effect waves-block  ">
-                                    <span>Add attendence</span>
-                                </a>
-                            </li>
-                            <li {{ Route::is('viewattendence') ? 'class=active' : '' }}>
-                                <a href="{{ route('viewattendence') }}" class="nav-link  waves-effect waves-block">
-                                    <span>View attendence</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-
-
-
-
-
-
-
-
-
-
                 <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
                     <a href="{{ route('employeeDetails') }}">
                         <i class="material-icons">person</i>
                         <span>My Profile</span>
                     </a>
                 </li>
-               
 
                 {{-- </li> --}}
 

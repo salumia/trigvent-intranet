@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -50,8 +49,6 @@ class LoginController extends Controller
     /* redirect if user access the root url / */
     public function index()
     {
-        
-        // $status = DB::table('users')->
         if (Auth::check()) {
             return redirect()->route('dashboard');
         } else {
@@ -59,9 +56,8 @@ class LoginController extends Controller
         }
     }
 
-    public function login(Request $request)
+    public function login()
     {
-        $user = new User;
         if (Auth::check()) {
             return redirect()->route('dashboard');
         } else {
@@ -76,10 +72,8 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = [strtolower('username') => $request->username, 'password' => $request->password , 'status'=>1 , 'relieving_date'=>NULL];
-
+        $credentials = [strtolower('username') => $request->username, 'password' => $request->password];
         $auth = Auth::attempt($credentials);
-        
         
         if ($auth) {
             return redirect()->route('dashboard');
