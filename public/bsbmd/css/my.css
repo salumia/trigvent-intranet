@@ -78,3 +78,82 @@
         .dropdown-menu ul.menu .my-menu-info {
             top: -5px!important;
         }
+        
+        .pha_button button {
+            margin: 3px;
+        }
+        
+        .punching_time {
+            position: absolute;
+            width: 87%;
+            top: 293px;
+            z-index: 11;
+        }
+        
+        .punchingcard {
+            min-height: 0px !important;
+        }
+        
+        /* input[type="time"]::-webkit-calendar-picker-indicator {
+            background: none;
+            display: none;
+        } */
+        
+        .time-picker {
+            font-size: 11px;
+            padding: 0px;
+            text-align: center;
+        }
+        
+        .pha_status {
+            margin-bottom: 13px;
+            margin-top: 18px;
+            height: 51px;
+            display: none;
+            background-color: #2b982b;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .mypha_status {
+            margin-bottom: 13px;
+            margin-top: 18px;
+            height: 51px;
+            display: none;
+            background-color: #fb483a;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .mypha_status1 {
+            margin-bottom: 13px;
+            margin-top: 18px;
+            height: 51px;
+            display: none;
+            background-color: #2b982b;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .mypha_status2 {
+            margin-bottom: 13px;
+            margin-top: 18px;
+            height: 51px;
+            display: none;
+            background-color: #1f91f3;
+            position: relative;
+            border-radius: 2px;
+        }
+      
+        .btn:not(.btn-link):not(.btn-circle){
+            box-shadow: unset;
+        }
+        .employee_listing{
+           margin-bottom: 5px !important;
+        }
+        .employee_listing .edit_btn{
+            width: 75px;
+        }
+        .employee_listing .delete_btn{
+            width: 75px;
+        }

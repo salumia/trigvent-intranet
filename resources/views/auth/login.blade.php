@@ -1,6 +1,8 @@
 @extends('auth.app')
 
+
 @section('content')
+
 
     <form id="sign_in" role="form" method="POST" action="{{ route('authenticate') }}">
         {{ csrf_field() }}
@@ -23,7 +25,7 @@
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line {{ $errors->has('password') ? ' error' : '' }}">
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <input type="password" value="" id="myInput" class="form-control" name="password" placeholder="Password" required>
             </div>
             @if ($errors->has('password'))
                 <label id="name-error" class="error" for="name">{{ $errors->first('password') }}</label>
@@ -31,10 +33,15 @@
         </div>
         <div class="row">
             <div class="col-xs-8 p-t-5">
-                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}
-                    class="filled-in chk-col-pink">
-                <label for="rememberme">Remember Me</label>
+                <input class="form-check-input" type="checkbox" id="show_pass" name="remember"  {{ old('remember') ? 'checked' : '' }}>
+                <label class="form-check-label" for="show_pass">Show Password</label>
             </div>
+            {{-- <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Default checkbox
+                </label>
+              </div> --}}
             <div class="col-xs-4">
                 <button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
             </div>
@@ -52,4 +59,10 @@
             </div>
         </div>
     </form>
+    @push('head')
+{{-- <script src="{{ asset('js/components/pizza.js')}}"></script> --}}
+<script src="{{ asset('public/js/my.js')}}"></script>
+@endpush
+
 @endsection
+<script src="{{ asset('js/my.js') }}"></script>
