@@ -85,23 +85,27 @@ class AttendenceController extends Controller
 
     public function viewattendence(){
         $employees = DB::table('users')->get();
-return view('layouts.employees.view-attendence',compact('employees'));
+      
+        return view('layouts.employees.view-attendence',compact('employees'));
     }
 
 
-    public function viewattendenceajax(){
+    public function viewattendenceajax(){   // same se name rakhe hai
 
         $id = $_REQUEST['id'];
         $sel = $_REQUEST['sel_date'];
         $emp_det = "";
         
-      
+    //  $hourmin =  select hour(punch_out),minute(punch_out) from in_outs;  //DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
+    
+   // $hourmin = DB::table('in_outs')->where('employee_id',$id);
       
         $emp_det = DB::table('attendence')->where('employee_id',$id)
         ->join('in_outs','in_outs.attendence_id','=','attendence.id')
         ->join('users','attendence.employee_id','=','users.id')
         ->join('designations', 'designations.id', '=', 'users.designation_id')
         ->select('in_outs.*','attendence.date', 'users.first_name','users.last_name','in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name')
+
         ->get();
 
         if(empty($emp_det)){

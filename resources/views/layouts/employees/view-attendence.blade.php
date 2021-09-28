@@ -99,6 +99,17 @@
                             <h1>Select the employee name </h1>
                             
                           </div>
+
+                        <div class="col-sm-12">
+                             <div class="col-sm-8"> 
+                                 <h3>Total  working hours : </h3>
+                            </div>
+                         <div class="col-sm-4"> 
+                             <h4 id="time_hour" style="padding: 13px;">  </h4>
+                        </div>
+                           
+                        </div>
+
                       </div>
                         
 
