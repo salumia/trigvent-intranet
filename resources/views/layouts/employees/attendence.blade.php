@@ -11,7 +11,7 @@
     {{-- <section class="content"> --}}
     <div class="container-fluid">
         <div class="block-header">
-            <h2> ATTENDENCE MANAGEMENT</h2>
+            <h2> ADD ATTENDENCE</h2>
         </div>
         <div class="row clearfix ">
 
@@ -29,6 +29,7 @@
                             <div class="row">
                                 <div class="col-sm-12 ">
                                    {{-- <span><b>{{ config('constants.yesterday')}}</b></span> --}}
+
                                    <input type="date" id="hiddenDate" style = "border: none;width:100%;" value="{{config('constants.yesterday')}}">
                                 </div>
                                
@@ -100,6 +101,15 @@
                               @endforeach
 
                             
+{{--   here is conflictions
+
+                             <div class="pha_button">                             
+                                <button type="button" id="present" class="btn btn-success present done" data="1">Present</button>
+                                <button type="button" id="halfday" class="btn btn-primary halfday" data="2">Half Day</button>
+                                <button type="button" id="absent" class="btn btn-danger absent" data="0">Absent</button>
+                                
+                            </div>
+ --}}
                             <div class="pha_status  text-center" style=""><span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span></div>              
                            </div>
                           
@@ -123,6 +133,7 @@
                                    
                                    <div style="position:absolute;margin-top:5px; margin-left: 186px;" id="add_new_punch"><i class="fa fa-plus-circle add_new_punch" style="font-size: 22px; color:green;"></i></div>
                                    <div style="position:absolute;margin-top:-21px; margin-left: 195px; " class="done_punch"><a href="javascript:void(0);"><i class="fa fa-check-square " style="font-size: 18px; color:#1f91f3 ;"></i></a></div>
+
                                   </form>
                                   
                                 </div> 

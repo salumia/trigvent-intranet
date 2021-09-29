@@ -275,11 +275,23 @@
                                     <label for="" class="">Emp. Login Password</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="password" name="password" class="form-control "
+                                            <input type="password" name="password" class="form-control"
                                                 placeholder="Leave Blank For Same Password" value="">
                                                 {{-- <div class="input-group-append">
                                                     <span class="input-group-text"><i class="fa fa-info-circle" title = "Fill it if you want to change the password" style = "color:red"></i></span> 
                                                   </div> --}}
+  
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="" class="">Relieving Date</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="date" name="relieving_date" class="form-control "
+                                                placeholder="" value="">
+                                               
                                                 
                                         </div>
                                      
@@ -287,6 +299,21 @@
                                    
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="" class="required">Miscellaneous</label>
+                                    <div class="form-group">
+        
+                                        <select name="department" class="selectpicker"  id="department2"value="">
+                                        
+                                            <option value="">Select Item</option>                                            
+                                            <option value="locker_key">Locker Key</option>
+                                            <option value="icard">Icard</option>
+                                          
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="sub_section_heading">

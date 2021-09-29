@@ -31,85 +31,37 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function ajaxCall(){
-        
-      
-         $st_code = $_REQUEST['state_code'];
-        
-         $allCity = DB::table('all_cities')->where('state_code',$st_code)->get();
-         return $allCity;
+    public function ajaxCall()
+    {
 
+
+        $st_code = $_REQUEST['state_code'];
+
+        $allCity = DB::table('all_cities')->where('state_code', $st_code)->get();
+        return $allCity;
     }
-    public function designationAjax(){
+    public function designationAjax()
+    {
         $dept_id = $_REQUEST['dept_id'];
         $allDes = DB::table('designations')->where('department', $dept_id)->get();
         return $allDes;
     }
 
-    // public function attendenceAjax(){ 
-    //     $da = $_REQUEST['dates'];
-    //     $emp_id = $_REQUEST['emp_id'];
-    //     $st = $_REQUEST['statusOfAtteendence'];
-    //    // $in_out = $_REQUEST['in_out'];
-    //    // $out = $_REQUEST['out_time'];
- 
-  
 
-    //     DB::table('attendence')->insert(
-    //         array(
-    //                'employee_id'     =>  $emp_id, 
-    //                'status'   =>  $st,
-    //                'date'   =>  $da,
-                  
-    //         )
-    //    );
-        
-    //       $attend_id = DB::table('attendence')->where('employee_id',$emp_id)->where('date',$da)->select('id')->first();
 
-    //     $value = "";
-    //     if($st != 0){
-           
-    //         $in_out = $_REQUEST['in_out'];
 
-    //     if(count($in_out)>0){
-    //         for($i = 0; $i < count($in_out[0]); $i++){            
-    //            //  $value .= " IN Time: " . $in_out[0][$i] . ' Out Time: ' . $in_out[1][$i];
-    //              DB::table('in_outs')->insert(
-    //                             array(
-    //                                    'attendence_id'     =>  $attend_id->id, 
-    //                                    'punch_in'   =>  $in_out[0][$i],
-    //                                    'punch_out'   =>  $in_out[1][$i],
-                                      
-    //                             )
-    //                        );
-    //         }
-    //     }
-    // }else{
-    //     DB::table('in_outs')->insert(
-    //         array(
-    //                'attendence_id'     =>  $attend_id->id, 
-    //                'punch_in'   =>  0,
-    //                'punch_out'   =>  0,
-                  
-    //         )
-    //    );
-    // }
-    //   // return $value . "\t" . $emp_id;
-    //   return $attend_id;
-
-    // }
 
     public function add()
     {
         $departments = Department::where('status', 1)->get();
         $designations = Designation::where('status', 1)->get();
-         $allState = DB::table('all_states')->select('state_name','state_code')->get();
-        
-        return view('layouts.employees.add-employee', compact('departments', 'designations','allState'));
+        $allState = DB::table('all_states')->select('state_name', 'state_code')->get();
+
+        return view('layouts.employees.add-employee', compact('departments', 'designations', 'allState'));
     }
 
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             'first_name' => 'required',
@@ -119,7 +71,7 @@ class EmployeeController extends Controller
             'mobile_number' => 'required|max:15',
             'alternate_number' => 'max:15',
             'bank_ifsc_code' => 'max:15',
-			'bank_name' => 'max:100',
+            'bank_name' => 'max:100',
             'bank_account_number' => 'max:30',
             'department' => 'required',
             'designation' => 'required',
@@ -129,7 +81,7 @@ class EmployeeController extends Controller
 
         ]);
 
-         $pass = randomPassword();
+        $pass = randomPassword();
 
         $notes = [];
         foreach ($request->notes as  $note) {
@@ -167,7 +119,7 @@ class EmployeeController extends Controller
             $user->image = $image_name;
         }
 
-      
+
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->father_name = $request->father_name;
@@ -190,7 +142,7 @@ class EmployeeController extends Controller
         $user->joining_date = $request->joining_date;
         $user->password = Hash::make($pass);
         $user->bank_account_name = $request->bank_account_name;
-		$user->bank_name = $request->bank_name;
+        $user->bank_name = $request->bank_name;
         $user->bank_account_number = $request->bank_account_number;
         $user->bank_ifsc_code = $request->bank_ifsc_code;
         $user->notes = $notes;
@@ -201,71 +153,91 @@ class EmployeeController extends Controller
         } else {
             $user->username = strtolower($username[0]);
         }
-		  $this->email( $user->personal_email_address, $user->username,$pass,  $user->first_name);
+        $this->email($user->personal_email_address, $user->username, $pass,  $user->first_name);
         $user->save();
 
-      //  return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully');
-         return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully. ( Hello, '. $user->first_name.'  Your Username : '. $user->username.',   Password : '.$pass.' )');
-
+        //  return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully');
+        return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully. ( Hello, ' . $user->first_name . '  Your Username : ' . $user->username . ',   Password : ' . $pass . ' )');
     }
-	
-	//confirmation mail
-	public function email($mail , $uname , $upass , $fname)
+
+    //confirmation mail
+    public function email($mail, $uname, $upass, $fname)
     {
         $email['to'] = $mail;
-        $data=['uname'=>$uname ,'upass'=>$upass,'fname'=>$fname];
-        Mail::send('layouts.employees.mail',  $data,function ($message) use ($email) {
+        $data = ['uname' => $uname, 'upass' => $upass, 'fname' => $fname];
+        Mail::send('layouts.employees.mail',  $data, function ($message) use ($email) {
             $message->from('trigventintranet@gmail.com', 'Trigvent');
             $message->subject('Welcome to trigvent family');
             $message->to($email['to']);
         });
-        
-    
     }
 
     public function listing()
     {
         $user = auth()->user();
-        if($user->role == 0){
+        if ($user->role == 0) {
             $employees = DB::table('users')
-            ->join('designations', 'designations.id', '=', 'users.designation_id')
-            ->join('departments', 'departments.id', '=', 'users.department_id')
-            ->select('users.*', 'departments.department_name', 'designations.designation_name')
-            ->get();
-
-        }else{
-            $employees = DB::table('users')->where('role',2)
-            ->join('designations', 'designations.id', '=', 'users.designation_id')
-            ->join('departments', 'departments.id', '=', 'users.department_id')
-            ->select('users.*', 'departments.department_name', 'designations.designation_name')
-            ->get();
+                ->join('designations', 'designations.id', '=', 'users.designation_id')
+                ->join('departments', 'departments.id', '=', 'users.department_id')
+                ->select('users.*', 'departments.department_name', 'designations.designation_name')
+                ->get();
+        } else {
+            $employees = DB::table('users')->where('role', 2)
+                ->join('designations', 'designations.id', '=', 'users.designation_id')
+                ->join('departments', 'departments.id', '=', 'users.department_id')
+                ->select('users.*', 'departments.department_name', 'designations.designation_name')
+                ->get();
         }
-       
 
-           
+
+
         return view('layouts.employees.employees-listing', compact('employees'));
     }
 
+
+    public function changestatusajax(Request $request)
+    {
+        // $id = $_REQUEST['id'];
+        $user = User::find($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['success' => 'Status change successfully']);
+
+        // $status = DB::table('users')->where('id', $id)->update((['status' => 0]));
+
+        // return  $status;
+
+    }
+    // public function enableajax(){
+    //     $id = $_REQUEST['id'];
+
+    //     $status = DB::table('users')->where('id', $id)->update((['status' => 1]));
+
+    //     return  $status;
+
+    // }
+
+
     public function edit($id)
     {
-        
-     
+
+
 
         $user = auth()->user();
-        if($user->role == 0){
+        if ($user->role == 0) {
             $employee = User::find($id);
-        }else{
-            $employee = DB::table('users')->where('id',$id)->where('role',2)->get();   // ->whereIn('id', [1, 2, 3])
+        } else {
+            $employee = DB::table('users')->where('id', $id)->where('role', 2)->get();   // ->whereIn('id', [1, 2, 3])
             $employee =  $employee[0];
         }
-       
+
 
         $departments = Department::where('status', 1)->get();
         $designations = Designation::where('status', 1)->get();
         $allState = DB::table('all_states')->get();
         $city = DB::table('all_cities')->get();
 
-        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee','allState','city'));
+        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee', 'allState', 'city'));
     }
 
     public function updateEmployee(Request $request, $id)
@@ -276,7 +248,7 @@ class EmployeeController extends Controller
             'gender' => 'required',
             'personal_email_address' => 'required',
             'mobile_number' => 'required|max:15',
-			 'alternate_number' => 'max:15',
+            'alternate_number' => 'max:15',
             'bank_ifsc_code' => 'max:15',
             'bank_name' => 'max:100',
             'bank_account_number' => 'max:30',
@@ -319,27 +291,28 @@ class EmployeeController extends Controller
         $user->mobile_no = $request->mobile_number;
         $user->alternate_no = $request->alternate_number;
         $user->address = $request->address;
-       // $user->city = $request->city;
-       // $user->state = $request->state;
-	    $user->city = $request->selectcity2;  
+        // $user->city = $request->city;
+        // $user->state = $request->state;
+        $user->city = $request->selectcity2;
         $user->state = $request->selectstate2;
 
         $emplpyee_code = User::max('employee_code');
         if ($emplpyee_code == null) {
             $emplpyee_code = 1000;
         }
-	   
+
         $user->employee_code = $emplpyee_code + 1;
 
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
         $user->joining_date = $request->joining_date;
+        $user->relieving_date = $request->relieving_date;
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
 
         $user->bank_account_name = $request->bank_account_name;
-		$user->bank_name = $request->bank_name;
+        $user->bank_name = $request->bank_name;
         $user->bank_account_number = $request->bank_account_number;
         $user->bank_ifsc_code = $request->bank_ifsc_code;
         $user->notes = $notes;
@@ -355,56 +328,69 @@ class EmployeeController extends Controller
     }
 
 
-    public function employeeDetails(){
-        
-       
+    public function employeeDetails()
+    {
+
+
         $user = auth()->user();
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $designation = DB::table('designations')->where('id', $user->designation_id)->select('designation_name')->get()->first();
+// <<<<<<< jitender
       
+//         $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
+//         $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
+        
+//        // dd($get_city);
+       
+//         return view('layouts.employees.employee-details', compact('department' ,'designation','get_state','get_city'));
+//       }
+// =======
+// >>>>>>> main
+
         $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
         $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
-        
-       // dd($get_city);
-       
-        return view('layouts.employees.employee-details', compact('department' ,'designation','get_state','get_city'));
-      }
 
-      public function viewPassword(Request $req){
-     
+        // dd($get_city);
+
+        return view('layouts.employees.employee-details', compact('department', 'designation', 'get_state', 'get_city'));
+    }
+
+    public function viewPassword(Request $req)
+    {
+
         return view('layouts.employees.change-password');
-      }
-      public function changePassword(Request $request){
-    
+    }
+    public function changePassword(Request $request)
+    {
+
         $hashedPassword = auth()->user()->password;
         $username = auth()->user()->username;
-    
-    
-        if(Hash::check($request->currentpasssword,$hashedPassword)){
-            // echo "Password matched";
-            if($request->newpassword == $request->confirmpassword){
-                  
-                 $hashpassword = Hash::make($request->newpassword);
-                   
-                    $user = DB::table('users')->where('username',$username)->update([
-                    'password' => $hashpassword
-                    ]);
-                   
-                    return redirect(route('changePassword'))->with('status', 'Password Changed Successfully ');
-             }else{
-                 // dd( "Your  new pass & confrim  Password is not matched");
-                 return redirect(route('changePassword'))->with('error', 'New Password & Confirm Password Are not Matched ! ');
-             }
-        }else{
-              // dd("Current Password is Correct");
-              return redirect(route('changePassword'))->with('error', ' Password is Incorrect ! ');
-        }
-    
-      }
 
+
+        if (Hash::check($request->currentpasssword, $hashedPassword)) {
+            // echo "Password matched";
+            if ($request->newpassword == $request->confirmpassword) {
+
+                $hashpassword = Hash::make($request->newpassword);
+
+                $user = DB::table('users')->where('username', $username)->update([
+                    'password' => $hashpassword
+                ]);
+
+                return redirect(route('changePassword'))->with('status', 'Password Changed Successfully ');
+            } else {
+                // dd( "Your  new pass & confrim  Password is not matched");
+                return redirect(route('changePassword'))->with('error', 'New Password & Confirm Password Are not Matched ! ');
+            }
+        } else {
+            // dd("Current Password is Correct");
+            return redirect(route('changePassword'))->with('error', ' Password is Incorrect ! ');
+        }
+    }
 }
 
-function randomPassword() {
+function randomPassword()
+{
     $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789#@!";
     $pass = array(); //remember to declare $pass as an array
     $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -414,5 +400,3 @@ function randomPassword() {
     }
     return implode($pass); //turn the array into a string
 }
-
-
