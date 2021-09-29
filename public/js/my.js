@@ -406,19 +406,28 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
             },
             data: { state_code: state_code },
-            success: function (response) {
-                var sel_city =
-                    " <select name='selectcity' class='selectpicker'><option value=''>Select City</option> ";
-                response.forEach(function (item, index) {
-                    console.log(
-                        index + " : " + item["city_name"] + " " + item["id"]
-                    );
-                    sel_city +=
-                        "<option value=" +
-                        item["id"] +
-                        ">" +
-                        item["city_name"] +
-                        "</option>";
+// <<<<<<< jitender
+//             success: function(response) {
+
+//                 var sel_city = " <select name='selectcity' class='selectpicker'><option value=''>Select City</option> ";
+//                 response.forEach(function(item, index) {
+//                     console.log(index + " : " + item['city_name'] + " " + item['id']);
+//                     sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
+// =======
+//             success: function (response) {
+//                 var sel_city =
+//                     " <select name='selectcity' class='selectpicker'><option value=''>Select City</option> ";
+//                 response.forEach(function (item, index) {
+//                     console.log(
+//                         index + " : " + item["city_name"] + " " + item["id"]
+//                     );
+//                     sel_city +=
+//                         "<option value=" +
+//                         item["id"] +
+//                         ">" +
+//                         item["city_name"] +
+//                         "</option>";
+// >>>>>>> main
                 });
 
                 $("#select_cities").html(sel_city).selectpicker("refresh");
@@ -443,12 +452,16 @@ $(document).ready(function () {
                     " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
                 response.forEach(function (item, index) {
                     // console.log(index + " : "+item['city_name'] + " " + item['id']);
-                    sel_city +=
-                        "<option value=" +
-                        item["id"] +
-                        ">" +
-                        item["city_name"] +
-                        "</option>";
+// <<<<<<< jitender
+//                     sel_city += "<option value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
+// =======
+//                     sel_city +=
+//                         "<option value=" +
+//                         item["id"] +
+//                         ">" +
+//                         item["city_name"] +
+//                         "</option>";
+// >>>>>>> main
                 });
 
                 $("#select_cities2").html(sel_city).selectpicker("refresh");
@@ -634,18 +647,29 @@ $(document).ready(function () {
             },
         });
     });
+    
 
+// <<<<<<< jitender
+//     if ($('#selectstate2').val() != "") {
+    
+       
 
-    $("#search").click(function () {
-        var fromval = $("#from").val();
-        total_working_time = 0;
-        $("#time_hour").html("");
-        // console.log(fromval);
-        var toval = $("#to").val();
-        var id = $("#selectname").val();
-        // console.log(toval);
-        // $(".hidden_div").slideUp();
+//         var cid = $("#city_id").val();
+       
+//         var state_code = ($('#selectstate2').val());
+// =======
 
+//     $("#search").click(function () {
+//         var fromval = $("#from").val();
+//         total_working_time = 0;
+//         $("#time_hour").html("");
+//         // console.log(fromval);
+//         var toval = $("#to").val();
+//         var id = $("#selectname").val();
+//         // console.log(toval);
+//         // $(".hidden_div").slideUp();
+
+// >>>>>>> main
         $.ajax({
             type: "POST",
             url: "http://localhost/hrms/employee/manualdatefilterajax",
@@ -661,34 +685,41 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
 
-                var attendence_det = `<table class='table table-striped'>
-        <thead class="text-center">
-            <tr>
+// <<<<<<< jitender
+//                 var sel_city = " <select name='selectcity2' class='selectpicker'><option value=''>Select City</option> ";
+//                 response.forEach(function(item, index) {
+//                     sel_city += "<option  value=" + item['id'] + ">" + item['city_name'] + "</option></select>";
+//                    // console.log(index + " : "+item['city_name'] + " " + item['id']);
+// =======
+//                 var attendence_det = `<table class='table table-striped'>
+//         <thead class="text-center">
+//             <tr>
                 
-                <th scope='col'>Date</th>
-                <th scope='col'>status</th>
-                <th scope='col'>Punch in</th>
-                <th scope='col'>Punch_out</th>
-                <th scope='col'>Designation</th>
-                <th scope='col'>Total Hours</th>
-            </tr>
-        </thead>
-        <tbody class="text-center"> `;
-                response.forEach(function (item, index) {
-                    attendence_det +=
-                    "<tr style='text-align:left;'><td>" +
-                    item["date"] +
-                    "</td><td>" +
-                    item["status"] +
-                    "</td><td>" +
-                    item["punch_in"] +
-                    "</td><td>" +
-                    item["punch_out"] +
-                    "</td><td>" +
-                    item["designation_name"] +
-                    "</td><td>" +
-                      hoursMinute(item['punch_in'],item['punch_out'])
-                    "</td></tr>"; 
+//                 <th scope='col'>Date</th>
+//                 <th scope='col'>status</th>
+//                 <th scope='col'>Punch in</th>
+//                 <th scope='col'>Punch_out</th>
+//                 <th scope='col'>Designation</th>
+//                 <th scope='col'>Total Hours</th>
+//             </tr>
+//         </thead>
+//         <tbody class="text-center"> `;
+//                 response.forEach(function (item, index) {
+//                     attendence_det +=
+//                     "<tr style='text-align:left;'><td>" +
+//                     item["date"] +
+//                     "</td><td>" +
+//                     item["status"] +
+//                     "</td><td>" +
+//                     item["punch_in"] +
+//                     "</td><td>" +
+//                     item["punch_out"] +
+//                     "</td><td>" +
+//                     item["designation_name"] +
+//                     "</td><td>" +
+//                       hoursMinute(item['punch_in'],item['punch_out'])
+//                     "</td></tr>"; 
+// >>>>>>> main
                 });
                 $("#time_hour").html(convertMinuteToHoursMinute(total_working_time));
                 attendence_det += "</tbody></table>";
@@ -697,7 +728,12 @@ $(document).ready(function () {
         });
     });
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -->>>>viewattendence end<<<<-----------------------------------------------------
+// <<<<<<< jitender
+//                 $("#select_cities2").html(sel_city).selectpicker('refresh');
+//                 $("#select_cities2").val(cid).selectpicker('refresh');
+// =======
+//     // -- -- -- -- -- -- -- -- -- -- -- -- -- -->>>>viewattendence end<<<<-----------------------------------------------------
+// >>>>>>> main
 
 
     // ----------------------------------->>>>enable-disable<<<<<---------------------------------------------
@@ -711,21 +747,26 @@ $(document).ready(function () {
             dataType:'json',
             url: "http://localhost/hrms/employee/changestatusajax",
 
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
-            },
-            data: {
-                'status':status,
-                'user_id':user_id,
-            },
-            success: function (data) {
-                $('#message').html('<p class="alert alert-danger">' + data.success+'</p>')
-            }
-        });
-    })
+// <<<<<<< jitender
+//     $(".add_new_punch").click(function() {
+//         //  console.log('hey arya');
+// =======
+//             headers: {
+//                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
+//             },
+//             data: {
+//                 'status':status,
+//                 'user_id':user_id,
+//             },
+//             success: function (data) {
+//                 $('#message').html('<p class="alert alert-danger">' + data.success+'</p>')
+//             }
+//         });
+//     })
 
 
-    // -------------------------------enable-disable end----------------------------------
+//     // -------------------------------enable-disable end----------------------------------
+// >>>>>>> main
 
 
 //--------------------------------------<<<<add attendence start>>>-----------------------------
@@ -750,140 +791,338 @@ $(document).ready(function () {
             .append(new_punch)
             .slideDown("slow");
     });
+  
+     
 
-    $(".present").click(function () {
-        $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
+// <<<<<<< jitender
+   
+// =======
+//     $(".present").click(function () {
+//         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
 
-        $(this)
-            .parents(".col-sm-3")
-            .find(".present")
-            .css("background-color", "yellow");
+//         $(this)
+//             .parents(".col-sm-3")
+//             .find(".present")
+//             .css("background-color", "yellow");
+// >>>>>>> main
 
         $(this).parents(".col-sm-3").find(".done_punch").attr("data", 1);
 
-        console.log(
-            $(this).parents(".col-sm-3").find(".done_punch").attr("data", 1)
-        );
-    });
+// <<<<<<< jitender
+//     $(".present").click(function() {
+//         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
+       
+//         $(this).parents(".col-sm-3").find(".present").css('background-color','yellow');
+       
+//         $(this).parents(".col-sm-3").find('.done_punch').attr('data',1);
+        
+//         console.log($(this).parents(".col-sm-3").find('.done_punch').attr('data',1));
+          
 
-    $(".done_punch").click(function () {
-        $(this)
-            .parents(".col-sm-3")
-            .find(".punching_time")
-            .slideToggle("slow")
-            .html();
-        // $(this).parents(".col-sm-3").find(".done").text("Done");
+//     });
 
-        console.log(
-            "Data Attribute Id : " +
-                $(this).parents(".col-sm-3").find(".done_punch").attr("data")
-        );
+//     $(".done_punch").click(function() {
+//         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow").html();
+//        // $(this).parents(".col-sm-3").find(".done").text("Done");
+        
+//         console.log("Data Attribute Id : " + $(this).parents(".col-sm-3").find('.done_punch').attr('data'));
+  
+//         var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
+//         var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
+//         var statusOfAtteendence = $(this).parents(".col-sm-3").find('.done_punch').attr('data');
+//         var in_time = new Array();
+//         var out_time = new Array();
+         
 
-        var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
-        var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
-        var statusOfAtteendence = $(this)
-            .parents(".col-sm-3")
-            .find(".done_punch")
-            .attr("data");
-        var in_time = new Array();
-        var out_time = new Array();
+//         $(this).parents(".col-sm-3").find(".intime").each(function(index,item){
+//              // console.log($(item).val());
+//               in_time[index] = $(item).val();
+//          });
+//         $(this).parents(".col-sm-3").find(".outtime").each(function(index,item){
+//                // console.log($(item).val());
+//                 out_time[index] = $(item).val();
+//         });
 
-        $(this)
-            .parents(".col-sm-3")
-            .find(".intime")
-            .each(function (index, item) {
+//          var in_out = [in_time,out_time];
+       
+
+//         console.log("array In time : "+ in_time);
+//         console.log("array Out Time : "+ out_time);
+
+//         if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 1){  // using if employee is present
+//             $(this).parents(".col-sm-3").find(".pha_status").show();
+//             $(this).parents(".col-sm-3").find(".pha_button").hide();
+//             console.log($(this).parents(".col-sm-3").find('.present').attr('data'));
+
+//             $.ajax({
+//                 type: 'POST',
+//                 url: 'http://localhost/hrms/employee/attendenceAjax',
+    
+//                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
                
-                in_time[index] = $(item).val();
-            });
-        $(this)
-            .parents(".col-sm-3")
-            .find(".outtime")
-            .each(function (index, item) {
-                
-                out_time[index] = $(item).val();
-            });
+//                 data: { 
+//                          dates: dates,                         
+//                          emp_id: emp_id,
+//                          statusOfAtteendence: statusOfAtteendence,
+//                          in_out: in_out
+                        
+                        
+//                         },
+//                 success: function(response) {
+//                     console.log(response) ;
+                    
+//                     // //$(this).parents(".col-sm-3").find(".mypha_status1").show();
+//                     // var pr = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
+//                     // $(this).parents(".col-sm-3").find(".mypha_status1").html(pr).show();
+                    
+//                 }
+//             });
 
-        var in_out = [in_time, out_time];
 
-        console.log("array In time : " + in_time);
-        console.log("array Out Time : " + out_time);
+//         }else if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 2){       // using if employee is present but for half day only    
+//             var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
+//             $(this).parents(".col-sm-3").find(".pha_button").hide();
+//             $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+//             $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#1f91f3');
 
-        if (
-            $(this).parents(".col-sm-3").find(".done_punch").attr("data") == 1
-        ) {
-            // using if employee is present
-            $(this).parents(".col-sm-3").find(".pha_status").show();
-            $(this).parents(".col-sm-3").find(".pha_button").hide();
-            console.log(
-                $(this).parents(".col-sm-3").find(".present").attr("data")
-            );
+//             console.log($(this).parents(".col-sm-3").find('.halfday').attr('data'));
+//              console.log('jitendera ');
+//             // console.log(dates);
+//             // console.log(emp_id);
+          
 
-            $.ajax({
-                type: "POST",
-                url: "http://localhost/hrms/employee/attendenceAjax",
+//             $.ajax({
+//                 type: 'POST',
+//                 url: 'http://localhost/hrms/employee/attendenceAjax',
+    
+//                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+               
+//                 data: { 
+//                          dates: dates,                         
+//                          emp_id: emp_id,
+//                          statusOfAtteendence: statusOfAtteendence,
+//                          in_out: in_out
+//                         },
+//                 success: function(response) {
+//                     console.log(response) ;
+                   
+//                 }
+//             });
 
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
-                        "content"
-                    ),
-                },
-
-                data: {
-                    dates: dates,
-                    emp_id: emp_id,
-                    statusOfAtteendence: statusOfAtteendence,
-                    in_out: in_out,
-                },
-                success: function (response) {
-                    console.log(response);
-
-                    // //$(this).parents(".col-sm-3").find(".mypha_status1").show();
-                    // var pr = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
-                    // $(this).parents(".col-sm-3").find(".mypha_status1").html(pr).show();
-                },
-            });
-        } else if (
-            $(this).parents(".col-sm-3").find(".done_punch").attr("data") == 2
-        ) {
-            // using if employee is present but for half day only
-            var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
-            $(this).parents(".col-sm-3").find(".pha_button").hide();
-            $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
-            $(this)
-                .parents(".col-sm-3")
-                .find(".pha_status")
-                .css("background-color", "#1f91f3");
-
-            console.log(
-                $(this).parents(".col-sm-3").find(".halfday").attr("data")
-            );
+//         }else{
            
-            $.ajax({
-                type: "POST",
-                url: "http://localhost/hrms/employee/attendenceAjax",
+//         }
+      
+      
 
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
-                        "content"
-                    ),
-                },
+//     });
 
-                data: {
-                    dates: dates,
-                    emp_id: emp_id,
-                    statusOfAtteendence: statusOfAtteendence,
-                    in_out: in_out,
-                },
-                success: function (response) {
-                    console.log(response);
-                },
-            });
-        } else {
-        }
-    });
+//   if($("#status0").val() == 0){
+//       var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+      
+//       $(".mypha_status").html(abs).show();
+//       $(".mypha_status").parent("div").find(".pha_button").hide();
+    
+    
+//   }
+//   if($("#status1").val() == 1){
+//       var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
+      
+//       $(".mypha_status1").html(abs).show();
+//       $(".mypha_status1").parent("div").find(".pha_button").hide();
+    
+    
+//   }
+//   if($("#status2").val() == 2){
+//     var sts = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
+      
+//       $(".mypha_status2").html(sts).show();
+//       $(".mypha_status2").parent("div").find(".pha_button").hide();
+    
+    
+//   }
 
-    if ($("#status0").val() == 0) {
-        var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+   
+
+//     $(".halfday").click(function() {
+//         $(this).parents(".col-sm-3").find(".punching_time").slideToggle("slow");
+//         console.log($(this).parents(".col-sm-3").find("#hiddenDate").val());
+//         console.log($(this).parents(".col-sm-3").find("#present_emp_id").val());
+        
+        
+       
+//          $(this).parents(".col-sm-3").find('.done_punch').attr('data',2);
+     
+
+//     });
+//       $(".absent").click(function(){  //  // using if employee is absent    
+
+           
+
+//             $(this).parents(".col-sm-3").find('.done_punch').attr('data',0);
+//             if($(this).parents(".col-sm-3").find('.done_punch').attr('data') == 0){
+//                 var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+//                 $(this).parents(".col-sm-3").find(".pha_button").hide();
+//                 $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+//                 $(this).parents(".col-sm-3").find(".pha_status").css('background-color','#fb483a');
+
+//                 var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
+//                 var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
+//                 var statusOfAtteendence = $(this).parents(".col-sm-3").find('.done_punch').attr('data');
+               
+
+//                $.ajax({
+//                             type: 'POST',
+//                             url: 'http://localhost/hrms/employee/attendenceAjax',
+                
+//                             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content') },
+                           
+//                             data: { 
+//                                      dates: dates,                         
+//                                      emp_id: emp_id,
+//                                      statusOfAtteendence: statusOfAtteendence
+                                    
+//                                     },
+//                             success: function(response) {
+//                                 console.log(response) ;
+                                
+                               
+//                             }
+//                         });
+
+//             }
+//             $(this).parents(".col-sm-3").find(".punching_time").slideUp("slow").html();
+
+
+
+
+            
+//       });
+// =======
+//         console.log(
+//             $(this).parents(".col-sm-3").find(".done_punch").attr("data", 1)
+//         );
+//     });
+
+//     $(".done_punch").click(function () {
+//         $(this)
+//             .parents(".col-sm-3")
+//             .find(".punching_time")
+//             .slideToggle("slow")
+//             .html();
+//         // $(this).parents(".col-sm-3").find(".done").text("Done");
+
+//         console.log(
+//             "Data Attribute Id : " +
+//                 $(this).parents(".col-sm-3").find(".done_punch").attr("data")
+//         );
+
+//         var dates = $(this).parents(".col-sm-3").find("#hiddenDate").val();
+//         var emp_id = $(this).parents(".col-sm-3").find("#present_emp_id").val();
+//         var statusOfAtteendence = $(this)
+//             .parents(".col-sm-3")
+//             .find(".done_punch")
+//             .attr("data");
+//         var in_time = new Array();
+//         var out_time = new Array();
+
+//         $(this)
+//             .parents(".col-sm-3")
+//             .find(".intime")
+//             .each(function (index, item) {
+               
+//                 in_time[index] = $(item).val();
+//             });
+//         $(this)
+//             .parents(".col-sm-3")
+//             .find(".outtime")
+//             .each(function (index, item) {
+                
+//                 out_time[index] = $(item).val();
+//             });
+
+//         var in_out = [in_time, out_time];
+
+//         console.log("array In time : " + in_time);
+//         console.log("array Out Time : " + out_time);
+
+//         if (
+//             $(this).parents(".col-sm-3").find(".done_punch").attr("data") == 1
+//         ) {
+//             // using if employee is present
+//             $(this).parents(".col-sm-3").find(".pha_status").show();
+//             $(this).parents(".col-sm-3").find(".pha_button").hide();
+//             console.log(
+//                 $(this).parents(".col-sm-3").find(".present").attr("data")
+//             );
+
+//             $.ajax({
+//                 type: "POST",
+//                 url: "http://localhost/hrms/employee/attendenceAjax",
+
+//                 headers: {
+//                     "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
+//                         "content"
+//                     ),
+//                 },
+
+//                 data: {
+//                     dates: dates,
+//                     emp_id: emp_id,
+//                     statusOfAtteendence: statusOfAtteendence,
+//                     in_out: in_out,
+//                 },
+//                 success: function (response) {
+//                     console.log(response);
+
+//                     // //$(this).parents(".col-sm-3").find(".mypha_status1").show();
+//                     // var pr = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span>`;
+//                     // $(this).parents(".col-sm-3").find(".mypha_status1").html(pr).show();
+//                 },
+//             });
+//         } else if (
+//             $(this).parents(".col-sm-3").find(".done_punch").attr("data") == 2
+//         ) {
+//             // using if employee is present but for half day only
+//             var st = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>HALF DAY</b></span>`;
+//             $(this).parents(".col-sm-3").find(".pha_button").hide();
+//             $(this).parents(".col-sm-3").find(".pha_status").html(st).show();
+//             $(this)
+//                 .parents(".col-sm-3")
+//                 .find(".pha_status")
+//                 .css("background-color", "#1f91f3");
+
+//             console.log(
+//                 $(this).parents(".col-sm-3").find(".halfday").attr("data")
+//             );
+           
+//             $.ajax({
+//                 type: "POST",
+//                 url: "http://localhost/hrms/employee/attendenceAjax",
+
+//                 headers: {
+//                     "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
+//                         "content"
+//                     ),
+//                 },
+
+//                 data: {
+//                     dates: dates,
+//                     emp_id: emp_id,
+//                     statusOfAtteendence: statusOfAtteendence,
+//                     in_out: in_out,
+//                 },
+//                 success: function (response) {
+//                     console.log(response);
+//                 },
+//             });
+//         } else {
+//         }
+//     });
+
+//     if ($("#status0").val() == 0) {
+//         var abs = `<span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>ABSENT</b></span>`;
+// >>>>>>> main
 
         $(".mypha_status").html(abs).show();
         $(".mypha_status").parent("div").find(".pha_button").hide();
@@ -971,10 +1210,14 @@ $(document).ready(function () {
 
  
 
+// <<<<<<< jitender
+//     $('#department').on('change', function() {
+// =======
 
-    //--------------------------------------<<<<department and designation>>>----------------------------- 
+//     //--------------------------------------<<<<department and designation>>>----------------------------- 
 
-    $("#department").on("change", function () {
+//     $("#department").on("change", function () {
+// >>>>>>> main
         var dept_id = $(this).val();
         $.ajax({
             type: "POST",
@@ -987,16 +1230,23 @@ $(document).ready(function () {
             success: function (response) {
                 // console.log(response);
 
-                var sel_desig =
-                    " <select name='designation' class='selectpicker'><option value=''>Select Designation</option> ";
-                response.forEach(function (item, index) {
+// <<<<<<< jitender
+//                 var sel_desig = " <select name='designation' class='selectpicker'><option value=''>Select Designation</option> ";
+//                 response.forEach(function(item, index) {
+//                     // console.log(item);
+//                     sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option></select>";
+// =======
+//                 var sel_desig =
+//                     " <select name='designation' class='selectpicker'><option value=''>Select Designation</option> ";
+//                 response.forEach(function (item, index) {
                    
-                    sel_desig +=
-                        "<option value=" +
-                        item["id"] +
-                        ">" +
-                        item["designation_name"] +
-                        "</option>";
+//                     sel_desig +=
+//                         "<option value=" +
+//                         item["id"] +
+//                         ">" +
+//                         item["designation_name"] +
+//                         "</option>";
+// >>>>>>> main
                 });
 
                 $("#designation").html(sel_desig).selectpicker("refresh");
@@ -1022,15 +1272,22 @@ $(document).ready(function () {
             success: function (response) {
                 // console.log(response);
 
-                var sel_desig =
-                    " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
-                response.forEach(function (item, index) {
-                    sel_desig +=
-                        "<option value=" +
-                        item["id"] +
-                        ">" +
-                        item["designation_name"] +
-                        "</option>";
+// <<<<<<< jitender
+//                 var sel_desig = " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
+//                 response.forEach(function(item, index) {
+//                     // console.log(item);
+//                     sel_desig += "<option value=" + item['id'] + ">" + item['designation_name'] + "</option></select>";
+// =======
+//                 var sel_desig =
+//                     " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
+//                 response.forEach(function (item, index) {
+//                     sel_desig +=
+//                         "<option value=" +
+//                         item["id"] +
+//                         ">" +
+//                         item["designation_name"] +
+//                         "</option>";
+// >>>>>>> main
                 });
 
                 $("#designation2").html(sel_desig).selectpicker("refresh");
@@ -1077,23 +1334,31 @@ $(document).ready(function () {
 
 
 
-var  total_hour = 0 ;
-var  total_minutes = 0 ;
-var total_working_time = 0;
+// <<<<<<< jitender
+//     }
 
-function hoursMinute(time_in,time_out){      
-    var time_i =  time_in.split(':');
-    var time_o = time_out.split(':');
-    var minute_o = parseInt(time_o[0]) * 60 + parseInt(time_o[1]);
-    var minute_i = parseInt(time_i[0]) * 60 + parseInt(time_i[1]);
-    var diff = minute_o - minute_i;
-    total_working_time += diff;
-    return convertMinuteToHoursMinute(diff);
+// });
 
-}
+// console.log('hello');
+// =======
+// var  total_hour = 0 ;
+// var  total_minutes = 0 ;
+// var total_working_time = 0;
 
-function convertMinuteToHoursMinute(minutes){
-    var hr = Math.floor(minutes/60);
-    var min = minutes % 60;
-    return hr + " Hrs " + min + " Mins";
-}
+// function hoursMinute(time_in,time_out){      
+//     var time_i =  time_in.split(':');
+//     var time_o = time_out.split(':');
+//     var minute_o = parseInt(time_o[0]) * 60 + parseInt(time_o[1]);
+//     var minute_i = parseInt(time_i[0]) * 60 + parseInt(time_i[1]);
+//     var diff = minute_o - minute_i;
+//     total_working_time += diff;
+//     return convertMinuteToHoursMinute(diff);
+
+// }
+
+// function convertMinuteToHoursMinute(minutes){
+//     var hr = Math.floor(minutes/60);
+//     var min = minutes % 60;
+//     return hr + " Hrs " + min + " Mins";
+// }
+// >>>>>>> main

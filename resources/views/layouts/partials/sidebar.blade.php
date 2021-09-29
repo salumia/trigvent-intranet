@@ -82,10 +82,14 @@
                         </ul>
                     </li>
                   @endcan 
-                   {{-- @endcanany --}}
+{{-- 
+                 
+                    <li {{ Route::is('attendence') ? 'class=active' : '' }}>
 
-                {{-- employee details --}}
-                {{-- <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
+                
+
+               
+               <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
                     <a  href="javascript:void(0)" class="menu-toggle waves-effect waves-block  ">
                         <i class="material-icons">trending_down</i>
                         <span>Details</span>
@@ -98,14 +102,15 @@
                             </a>
                         </li>
                       
-                    </ul> --}}
+                    </ul> 
 
-                    {{-- <li {{ Route::is('attendence') ? 'class=active' : '' }}>
+                     <li {{ Route::is('attendence') ? 'class=active' : '' }}>
+  --}}
                         <a href="{{ route('attendence') }}">
                             <i class="material-icons">person</i>
                             <span>Attendence Management</span>
                         </a>
-                    </li> --}}
+                    </li> 
 
 
 

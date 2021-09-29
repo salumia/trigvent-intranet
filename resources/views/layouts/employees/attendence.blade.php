@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-sm-12 ">
                                    {{-- <span><b>{{ config('constants.yesterday')}}</b></span> --}}
-                                   {{-- <label for="date">Attendence date</label> --}}
+
                                    <input type="date" id="hiddenDate" style = "border: none;width:100%;" value="{{config('constants.yesterday')}}">
                                 </div>
                                
@@ -66,13 +66,50 @@
                                 @endfor
                                
                             </p>
-                            
+                           
                              <div class="pha_button">                             
                                 <button type="button" id="present" class="btn btn-success present done" data="1">Present</button>
                                 <button type="button" id="halfday" class="btn btn-primary halfday" data="2">Half Day</button>
                                 <button type="button" id="absent" class="btn btn-danger absent" data="0">Absent</button>
                                 
                             </div>
+                           
+                           
+                              @foreach ($attendence as  $item)
+                                @if($employee->id == $item->employee_id )
+                                  
+                                      
+                                        @if($item->status == 0) 
+                                       
+                                         <input type="hidden" id="status0" value="{{$item->status}}">
+                                         <div class="text-center mypha_status" style=""></div>              
+                                        @elseif($item->status == 1)
+                                        <input type="hidden" id="status1" value="{{$item->status}}">
+                                        
+                                        <div class="text-center mypha_status1" style=""></div>  
+                                         
+                                        @else
+                                        
+                                        <input type="hidden" id="status2" value="{{$item->status}}">
+                                        <div class="text-center mypha_status2" style=""></div> 
+                                      
+                                        @endif
+                                       
+                              
+                                
+                                @endif
+                              @endforeach
+
+                            
+{{--   here is conflictions
+
+                             <div class="pha_button">                             
+                                <button type="button" id="present" class="btn btn-success present done" data="1">Present</button>
+                                <button type="button" id="halfday" class="btn btn-primary halfday" data="2">Half Day</button>
+                                <button type="button" id="absent" class="btn btn-danger absent" data="0">Absent</button>
+                                
+                            </div>
+ --}}
                             <div class="pha_status  text-center" style=""><span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span></div>              
                            </div>
                           
@@ -96,7 +133,7 @@
                                    
                                    <div style="position:absolute;margin-top:5px; margin-left: 186px;" id="add_new_punch"><i class="fa fa-plus-circle add_new_punch" style="font-size: 22px; color:green;"></i></div>
                                    <div style="position:absolute;margin-top:-21px; margin-left: 195px; " class="done_punch"><a href="javascript:void(0);"><i class="fa fa-check-square " style="font-size: 18px; color:#1f91f3 ;"></i></a></div>
-                                   
+
                                   </form>
                                   
                                 </div> 

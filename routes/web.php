@@ -52,14 +52,18 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get('/employee/delete/{id}',[EmployeeController::class, 'delete'])->name('deleteEmployee');
 		Route::post('/employee/ajax',[EmployeeController::class,'ajaxCall'])->name('ajaxCall');
 		Route::post('/employee/designationAjax',[EmployeeController::class,'designationAjax'])->name('designationAjax');
-		Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
-		Route::get('/employee/view-attendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
-		Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
-		Route::post('/employee/viewattendenceajax',[AttendenceController::class,'viewattendenceajax'])->name('viewattendenceAjax');
-		Route::post('/employee/filterattendenceajax',[AttendenceController::class,'filterattendenceajax'])->name('filterattendenceajax');
-		Route::post('/employee/manualdatefilterajax',[AttendenceController::class,'manualdatefilterajax'])->name('manualdatefilterajax');
-		Route::post('/employee/changestatusajax',[EmployeeController::class,'changestatusajax'])->name('changestatusajax');
-		Route::post('/employee/enableajax',[EmployeeController::class,'enableajax'])->name('enableajax');
+// <<<<<<< jitender
+// 		Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
+// =======
+// 		Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
+// 		Route::get('/employee/view-attendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
+// 		Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
+// 		Route::post('/employee/viewattendenceajax',[AttendenceController::class,'viewattendenceajax'])->name('viewattendenceAjax');
+// 		Route::post('/employee/filterattendenceajax',[AttendenceController::class,'filterattendenceajax'])->name('filterattendenceajax');
+// 		Route::post('/employee/manualdatefilterajax',[AttendenceController::class,'manualdatefilterajax'])->name('manualdatefilterajax');
+// 		Route::post('/employee/changestatusajax',[EmployeeController::class,'changestatusajax'])->name('changestatusajax');
+// 		Route::post('/employee/enableajax',[EmployeeController::class,'enableajax'])->name('enableajax');
+// >>>>>>> main
 		
 		
 	});
