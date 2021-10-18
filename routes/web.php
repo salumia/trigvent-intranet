@@ -15,10 +15,14 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 
 
-Route::get('/',[LoginController::class,'index'])->name('index');
+
+
+Route::get('/',[DashboardController::class,'landing_page'])->name('landing_page');
 Route::get('/login',[LoginController::class,'login'])->name('login');
 Route::post('/authenticate-login',[LoginController::class,'authenticate'])->name('authenticate');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+Route::get('/employee-directory',[DashboardController::class,'landing_page'])->name('employee_directory');
+Route::get('/employee-directory/search_data',[DashboardController::class,'search_data'])->name('directory_search_data');
 
 
 
@@ -52,22 +56,22 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get('/employee/delete/{id}',[EmployeeController::class, 'delete'])->name('deleteEmployee');
 		Route::post('/employee/ajax',[EmployeeController::class,'ajaxCall'])->name('ajaxCall');
 		Route::post('/employee/designationAjax',[EmployeeController::class,'designationAjax'])->name('designationAjax');
-		Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
-		Route::get('/employee/view-attendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
-		Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
-		Route::post('/employee/viewattendenceajax',[AttendenceController::class,'viewattendenceajax'])->name('viewattendenceAjax');
-		Route::post('/employee/filterattendenceajax',[AttendenceController::class,'filterattendenceajax'])->name('filterattendenceajax');
-		Route::post('/employee/manualdatefilterajax',[AttendenceController::class,'manualdatefilterajax'])->name('manualdatefilterajax');
+	
 		Route::post('/employee/changestatusajax',[EmployeeController::class,'changestatusajax'])->name('changestatusajax');
+
 		Route::post('/employee/enableajax',[EmployeeController::class,'enableajax'])->name('enableajax');
 		
-		
 	});
+	// Route::middleware(['can:isEmployee'])->group(function () {
+		Route::get('/employee/view-employee-attendence',[AttendenceController::class, 'viewemployeeattendence'])->name('viewemployeeattendence');
+	// });
 
-    // Route::middleware(['admin'])->group(function () {
-		
-    // });
-
+	Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');
+	Route::get('/employee/view-attendence',[AttendenceController::class, 'viewattendence'])->name('viewattendence');
+	Route::post('/employee/attendenceAjax',[AttendenceController::class,'attendenceAjax'])->name('attendenceAjax');
+	Route::post('/employee/viewattendenceajax',[AttendenceController::class,'viewattendenceajax'])->name('viewattendenceAjax');
+	Route::post('/employee/filterattendenceajax',[AttendenceController::class,'filterattendenceajax'])->name('filterattendenceajax');
+	Route::post('/employee/manualdatefilterajax',[AttendenceController::class,'manualdatefilterajax'])->name('manualdatefilterajax');
 
 });
 

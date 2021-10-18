@@ -81,33 +81,6 @@
                             </li>
                         </ul>
                     </li>
-                  @endcan 
-                   {{-- @endcanany --}}
-
-                {{-- employee details --}}
-                {{-- <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
-                    <a  href="javascript:void(0)" class="menu-toggle waves-effect waves-block  ">
-                        <i class="material-icons">trending_down</i>
-                        <span>Details</span>
-                    </a>
-
-                    <ul class="ml-menu">
-                        <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
-                            <a  href="{{ route('employeeDetails') }}" class="nav-link  waves-effect waves-block  ">
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                      
-                    </ul> --}}
-
-                    {{-- <li {{ Route::is('attendence') ? 'class=active' : '' }}>
-                        <a href="{{ route('attendence') }}">
-                            <i class="material-icons">person</i>
-                            <span>Attendence Management</span>
-                        </a>
-                    </li> --}}
-
-
 
                     <li {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=active' : '' }}>
                         <a {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=toggled' : '' }}
@@ -129,16 +102,17 @@
                             </li>
                         </ul>
                     </li>
+                    
+                  @endcan 
 
-
-
-
-
-
-
-
-
-
+                   {{-- @can(['isEmployee'])    --}}
+                  <li {{ Route::is('viewemployeeattendence') ? 'class=active' : '' }}>
+                    <a href="{{ route('viewemployeeattendence') }}">
+                        <i class="material-icons">fingerprint </i>
+                        <span>My attendence</span>
+                    </a>
+                </li>
+                 {{-- @endcan   --}}
 
                 <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
                     <a href="{{ route('employeeDetails') }}">
@@ -172,8 +146,7 @@
         </div>
         <!-- #Footer -->
     </aside>
-    <!-- #END# Left Sidebar -->
-    <!-- Right Sidebar -->
+
     <aside id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs tab-nav-right" role="tablist">
             <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>

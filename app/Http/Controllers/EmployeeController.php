@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Miscellaneous;
 use App\Models\Department;
 use App\Models\Designation;
 use Illuminate\Support\Facades\Hash;
@@ -54,6 +55,7 @@ class EmployeeController extends Controller
         $departments = Department::where('status', 1)->get();
         $designations = Designation::where('status', 1)->get();
         $allState = DB::table('all_states')->select('state_name', 'state_code')->get();
+  
 
         return view('layouts.employees.add-employee', compact('departments', 'designations', 'allState'));
     }
@@ -128,16 +130,15 @@ class EmployeeController extends Controller
         $user->mobile_no = $request->mobile_number;
         $user->alternate_no = $request->alternate_number;
         $user->address = $request->address;
-
-        // $user->city = $request->city;
-        // $user->state = $request->state;
-
+        $user->temporary_address = $request->temporary_address;
+        
         $user->city = $request->selectcity;   // edit in selection
         $user->state = $request->selectstate;
 
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
         $user->joining_date = $request->joining_date;
+        $user->skype_id = $request->skype_id;
         $user->password = Hash::make($pass);
         $user->bank_account_name = $request->bank_account_name;
         $user->bank_name = $request->bank_name;
@@ -154,6 +155,8 @@ class EmployeeController extends Controller
         $this->email($user->personal_email_address, $user->username, $pass,  $user->first_name);
         $user->save();
 
+
+    
         //  return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully');
         return redirect(route('addEmployee'))->with('status', 'Employee Added Successfully. ( Hello, ' . $user->first_name . '  Your Username : ' . $user->username . ',   Password : ' . $pass . ' )');
     }
@@ -234,12 +237,19 @@ class EmployeeController extends Controller
         $designations = Designation::where('status', 1)->get();
         $allState = DB::table('all_states')->get();
         $city = DB::table('all_cities')->get();
+        $miscellaneous = DB::table('miscellaneouses')->where([['key', '=', 'drawer_key'],['emp_id','=',$id]])->first();
+        $miscellaneous3 = DB::table('miscellaneouses')->where([['key', '=', 'drawer_key_returned'],['emp_id','=',$id]])->first();
+        $miscellaneous4 = DB::table('miscellaneouses')->where([['key', '=', 'Id_card_returned'],['emp_id','=',$id]])->first();
+        $miscellaneous2 = DB::table('miscellaneouses')->where([['key', '=', 'Id card'],['emp_id','=',$id]])->first();
+        //  dd($miscellaneous4);
 
-        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee', 'allState', 'city'));
+
+        return view('layouts.employees.edit-employee', compact('departments', 'designations', 'employee', 'allState', 'city','miscellaneous','miscellaneous2','miscellaneous3','miscellaneous4'));
     }
 
-    public function updateEmployee(Request $request, $id)
+    public function updateEmployee(Request $request, $id )
     {
+        //  dd($request->all());
         $request->validate([
             'first_name' => 'required',
             'dob' => 'required',
@@ -276,7 +286,6 @@ class EmployeeController extends Controller
                 }
             }
         }
-
         $notes = json_encode($notes);
 
         $user->first_name = $request->first_name;
@@ -289,33 +298,50 @@ class EmployeeController extends Controller
         $user->mobile_no = $request->mobile_number;
         $user->alternate_no = $request->alternate_number;
         $user->address = $request->address;
-        // $user->city = $request->city;
-        // $user->state = $request->state;
+        $user->temporary_address = $request->temporary_address;     
         $user->city = $request->selectcity2;
         $user->state = $request->selectstate2;
-
         $emplpyee_code = User::max('employee_code');
         if ($emplpyee_code == null) {
             $emplpyee_code = 1000;
         }
-
         $user->employee_code = $emplpyee_code + 1;
-
         $user->department_id = $request->department;
         $user->designation_id = $request->designation;
         $user->joining_date = $request->joining_date;
+        $user->skype_id = $request->skype_id;
         $user->relieving_date = $request->relieving_date;
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
-
         $user->bank_account_name = $request->bank_account_name;
         $user->bank_name = $request->bank_name;
         $user->bank_account_number = $request->bank_account_number;
         $user->bank_ifsc_code = $request->bank_ifsc_code;
         $user->notes = $notes;
         $user->save();
-        return redirect(route('employeesListing'))->with('status', 'Employee Updated Successfully ');
+
+        
+        if($request->Drawer_key ){          
+         $miscellaneous = Miscellaneous::updateOrCreate(
+                [ 'emp_id' => $id, 'key' =>  "drawer_key"],
+                [ 'value' =>  request('Drawer_key')]
+            );
+        }
+        if($request->drawer_return){
+            $miscellaneous1 = Miscellaneous::updateOrCreate(
+                [ 'emp_id' => $id, 'key' =>  "drawer_key_returned"],
+                [ 'value' =>  request('drawer_return')]
+            );
+        }
+         if($request->id_card_return){
+        $miscellaneous2 = Miscellaneous::updateOrCreate(
+            [ 'emp_id' => $id, 'key' =>  "Id_card_returned"],
+            [ 'value' =>  request('id_card_return')]
+        );
+        }
+     
+        return redirect(route('employeesListing'))->with('status', ' Employee Updated Successfully ');
     }
 
 
@@ -328,8 +354,6 @@ class EmployeeController extends Controller
 
     public function employeeDetails()
     {
-
-
         $user = auth()->user();
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $designation = DB::table('designations')->where('id', $user->designation_id)->select('designation_name')->get()->first();
@@ -337,14 +361,11 @@ class EmployeeController extends Controller
         $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
         $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
 
-        // dd($get_city);
-
         return view('layouts.employees.employee-details', compact('department', 'designation', 'get_state', 'get_city'));
     }
 
     public function viewPassword(Request $req)
     {
-
         return view('layouts.employees.change-password');
     }
     public function changePassword(Request $request)

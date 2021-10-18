@@ -1,3 +1,26 @@
+// var timepicker = new TimePicker('intime', {
+//     lang: 'en',
+//     theme: 'dark'
+//   });
+//   timepicker.on('change', function(evt) {
+
+//     var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+//     evt.element.value = value;
+
+//   });
+//   var timepicker = new TimePicker('outtime', {
+//     lang: 'en',
+//     theme: 'dark'
+//   });
+//   timepicker.on('change', function(evt) {
+
+//     var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+//     evt.element.value = value;
+
+//   });
+
+var baseurl = "http://localhost/hrms/employee/";
+
 $(document).ready(function () {
     var count = 2;
 
@@ -10,7 +33,9 @@ $(document).ready(function () {
         }
     });
 
-    $(".selectname").select2();
+    
+
+    $(".select2name").select2();
 
     $(".addField").click(function () {
         $(".fieldsWrap").append(
@@ -21,21 +46,12 @@ $(document).ready(function () {
                     <textarea class = "addnote_area" name="notes[]" id="addfield"` +
                 count++ +
                 `" cols="55" rows="2" ></textarea>
-
                 </div>
-
                 <div class="col-md-2"> 
-
-                
-
                     <button class="rem" type="button" title="click to remove" style="margin:9px;border:none ;background-color:red;color:white;border-radius:4px">
-
                         <i class="fa fa-remove" style="font-size: 15px;color:white;padding:5px"></i>                    
-
                     </button>
-
                 </div>
-
             </div>`
         );
     });
@@ -400,7 +416,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/ajax",
+            url: baseurl + "ajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -432,7 +448,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/ajax",
+            url: baseurl + "ajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -462,7 +478,7 @@ $(document).ready(function () {
         var state_code = $("#selectstate2").val();
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/ajax",
+            url: baseurl + "ajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -488,22 +504,29 @@ $(document).ready(function () {
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- - view attendence-----------------------------------
-
-    $(".selectname").on("change", function () {
+    // $('#twh').hide();
+    $("#selectname").on("change", function () {
+        // $('#twh').show();
         total_working_time = 0;
         $("#time_hour").html("");
+        $("#current_acc_leaves").text("");
+        $("#last_acc_leaves").text("");
         var id = $(this).val();
-      
+   
+        console.log(id);
+
+
         var sel_date = $("#datefilter").val();
 
         if (id != "") {
-
-            var name = $('option:selected', this).data('emp');
-            $("#name_print1").text(name);
-
+            var name = $("option:selected", this).data("emp");
+            $("#name_print1").text(
+                name.charAt(0).toUpperCase() + name.slice(1)
+            );
+            // name.charAt(0)
             $.ajax({
                 type: "POST",
-                url: "http://localhost/hrms/employee/viewattendenceajax",
+                url: baseurl + "viewattendenceajax",
 
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
@@ -512,70 +535,106 @@ $(document).ready(function () {
                 },
                 data: { id: id, sel_date: sel_date },
                 success: function (response) {
-                    console.log(response);
-                   
-                    var attendence_det = `
-                    <table class='table table-striped'>
-                            <thead class="text-center">
-                                <tr>
-                                    
-                                    <th scope='col'>Date</th>
-                                    <th scope='col'>status</th>
-                                    <th scope='col'>Punch in</th>
-                                    <th scope='col'>Punch_out</th>
-                                    <th scope='col'>Designation</th>
-                                    <th scope='col'>Total Hours</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">`;
-                    var totalworkhrs = `
-                    <div class="col-sm-10"> 
-                    <h3>Total  working hours : </h3>
-               </div>
-                    `
-               if(response != ''){
-                    response.forEach(function (item, index) {
                     
-                        attendence_det +=
-                        "<tr style='text-align:left;'><td>" +
-                        item["date"] +
-                        "</td><td>" +
-                        item["status"] +
-                        "</td><td>" +
-                        item["punch_in"] +
-                        "</td><td>" +
-                        item["punch_out"] +
-                        "</td><td>" +
-                        item["designation_name"] +
-                        "</td><td>" +
-                          hoursMinute(item['punch_in'],item['punch_out'])
-                        "</td></tr>"; 
+                    console.log(response);
+                    console.log(response.length);
+                    
+
+                    // if(response[1] == 1){
+                    //     console.log('hey done');
+                    //     console.log(response[0][0]['current_year_accrued_leaves'] );
+                    // }
+
+                    if (response != "" ) {
                         
-                    });
+                        if(response[1] == 1){
 
-                    $("#time_hour").html(convertMinuteToHoursMinute(total_working_time));
-              
-             
-                    attendence_det += "</tbody></table>"
-                    $(".attendence_table").html(attendence_det);
+                            $("#current_acc_leaves").text(
+                              // response[0]['current_year_accrued_leaves']
+                                response[0][0]['current_year_accrued_leaves']
+                            );
+                            $("#last_acc_leaves").text(
+                               // response[0]['last_year_accrued_leaves']
+                                response[0][0]['last_year_accrued_leaves']
+                                );
 
-                }else{
-                     var emp = '<h2>No Record Found! </h2>';
-                    $(".attendence_table").html(emp);
-                }
+                                var emp = "<h2> No Record Found! </h2>";
+                                $(".attendence_table").html(emp);
 
+                        }else{
+
+                            var attendence_det = `
+                            <table class='table table-striped'>
+                                    <thead class="text-center">
+                                        <tr>
+                                            
+                                            <th scope='col'>Date</th>
+                                            <th scope='col'>status</th>
+                                            <th scope='col'>Punch in</th>
+                                            <th scope='col'>Punch_out</th>
+                                            <th scope='col'>Designation</th>
+                                            <th scope='col'>Total Hours</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">`;
+                            
+                            response.forEach(function (item, index) {
+                                attendence_det +=
+                                    "<tr style='text-align:left;'><td>" +
+                                    item["date"] +
+                                    "</td><td>" +
+                                    item["status"] +
+                                    "</td><td>" +
+                                    item["punch_in"] +
+                                    "</td><td>" +
+                                    item["punch_out"] +
+                                    "</td><td>" +
+                                    item["designation_name"] +
+                                    "</td><td>" +
+                                    hoursMinute(
+                                        item["punch_in"],
+                                        item["punch_out"]
+                                    );
+                                ("</td></tr>");
+                            });
+                           
+                            attendence_det += "</tbody></table>";
+                            $(".attendence_table").html(attendence_det);
+
+                        }
+
+                       
+                        $("#time_hour").html(
+                            convertMinuteToHoursMinute(total_working_time)
+                        );
+                       
+                        $("#current_acc_leaves").text(
+                            response[0]['current_year_accrued_leaves']
+                        );
+                        $("#last_acc_leaves").text(
+                            response[0]['last_year_accrued_leaves']
+                            );
+
+                       
+                    } else {
+
+                        var emp = "<h2>No Record Found! </h2>";
+                        $(".attendence_table").html(emp);
+                    }
                 },
-                
             });
         }
     });
 
     $(".hidden_div").hide();
     var customeDate = "";
+
     $("#datefilter").on("change", function () {
         var id = $("#selectname").val();
         total_working_time = 0;
         $("#time_hour").html("");
+        $("#current_acc_leaves").text("");
+        $("#last_acc_leaves").text("");
         var sel_date = $(this).val();
 
         if (sel_date == 3) {
@@ -584,10 +643,9 @@ $(document).ready(function () {
         }
 
         console.log(sel_date);
-
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/filterattendenceajax",
+            url: baseurl + "filterattendenceajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -599,7 +657,27 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
 
-                var attendence_det = `<table class='table table-striped'>
+                
+                if (response != "") {
+
+
+                    if(response[1] == 1){
+
+                        $("#current_acc_leaves").text(
+                          // response[0]['current_year_accrued_leaves']
+                            response[0][0]['current_year_accrued_leaves']
+                        );
+                        $("#last_acc_leaves").text(
+                           // response[0]['last_year_accrued_leaves']
+                            response[0][0]['last_year_accrued_leaves']
+                            );
+
+                            var emp = "<h2> No Record Found! </h2>";
+                            $(".attendence_table").html(emp);
+
+                    }else{
+
+                        var attendence_det = `<table class='table table-striped'>
                 <thead class="text-center">
                     <tr>
                         
@@ -612,35 +690,54 @@ $(document).ready(function () {
                     </tr>
                 </thead>
                 <tbody class="text-center"> `;
-                response.forEach(function (item, index) {
-                    attendence_det +=
-                        "<tr style='text-align:left;'><td>" +
-                        item["date"] +
-                        "</td><td>" +
-                        item["status"] +
-                        "</td><td>" +
-                        item["punch_in"] +
-                        "</td><td>" +
-                        item["punch_out"] +
-                        "</td><td>" +
-                        item["designation_name"] +
-                        "</td><td>" +
-                          hoursMinute(item['punch_in'],item['punch_out'])
-                        "</td></tr>"; 
-                });
-                $("#time_hour").html(convertMinuteToHoursMinute(total_working_time));
-                attendence_det += "</tbody></table>";
-                $(".attendence_table").html(attendence_det);
+
+                    response.forEach(function (item, index) {
+                        attendence_det +=
+                            "<tr style='text-align:left;'><td>" +
+                            item["date"] +
+                            "</td><td>" +
+                            item["status"] +
+                            "</td><td>" +
+                            item["punch_in"] +
+                            "</td><td>" +
+                            item["punch_out"] +
+                            "</td><td>" +
+                            item["designation_name"] +
+                            "</td><td>" +
+                            hoursMinute(item["punch_in"], item["punch_out"]);
+                        ("</td></tr>");
+                    });
+
+                    attendence_det += "</tbody></table>";
+                    $(".attendence_table").html(attendence_det);
+
+                }
+                    $("#time_hour").html(
+                        convertMinuteToHoursMinute(total_working_time)
+                    );
+                    $("#current_acc_leaves").text(
+                        response[0]['current_year_accrued_leaves']
+                    );
+                    $("#last_acc_leaves").text(
+                        response[0]['last_year_accrued_leaves']
+                        );
+
+                  
+                } else {
+                    var emp = "<h2>No Record Found! </h2>";
+                    $(".attendence_table").html(emp);
+                }
             },
         });
     });
-
 
     $("#search").click(function () {
         var fromval = $("#from").val();
         total_working_time = 0;
         $("#time_hour").html("");
-        // console.log(fromval);
+        $("#current_acc_leaves").text("");
+        $("#last_acc_leaves").text("");
+
         var toval = $("#to").val();
         var id = $("#selectname").val();
         // console.log(toval);
@@ -648,7 +745,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/manualdatefilterajax",
+            url: baseurl + "manualdatefilterajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -661,74 +758,108 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
 
-                var attendence_det = `<table class='table table-striped'>
-        <thead class="text-center">
-            <tr>
-                
-                <th scope='col'>Date</th>
-                <th scope='col'>status</th>
-                <th scope='col'>Punch in</th>
-                <th scope='col'>Punch_out</th>
-                <th scope='col'>Designation</th>
-                <th scope='col'>Total Hours</th>
-            </tr>
-        </thead>
-        <tbody class="text-center"> `;
-                response.forEach(function (item, index) {
-                    attendence_det +=
-                    "<tr style='text-align:left;'><td>" +
-                    item["date"] +
-                    "</td><td>" +
-                    item["status"] +
-                    "</td><td>" +
-                    item["punch_in"] +
-                    "</td><td>" +
-                    item["punch_out"] +
-                    "</td><td>" +
-                    item["designation_name"] +
-                    "</td><td>" +
-                      hoursMinute(item['punch_in'],item['punch_out'])
-                    "</td></tr>"; 
-                });
-                $("#time_hour").html(convertMinuteToHoursMinute(total_working_time));
-                attendence_det += "</tbody></table>";
-                $(".attendence_table").html(attendence_det);
+              
+
+                if (response != "") {
+
+                    if(response[1] == 1){
+
+                        $("#current_acc_leaves").text(
+                          // response[0]['current_year_accrued_leaves']
+                            response[0][0]['current_year_accrued_leaves']
+                        );
+                        $("#last_acc_leaves").text(
+                           // response[0]['last_year_accrued_leaves']
+                            response[0][0]['last_year_accrued_leaves']
+                            );
+
+                            var emp = "<h2> No Record Found! </h2>";
+                            $(".attendence_table").html(emp);
+
+                    }else{
+
+                        var attendence_det = `<table class='table table-striped'>
+                        <thead class="text-center">
+                            <tr>
+                                
+                                <th scope='col'>Date</th>
+                                <th scope='col'>status</th>
+                                <th scope='col'>Punch in</th>
+                                <th scope='col'>Punch_out</th>
+                                <th scope='col'>Designation</th>
+                                <th scope='col'>Total Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center"> `;
+
+                    response.forEach(function (item, index) {
+                        attendence_det +=
+                            "<tr style='text-align:left;'><td>" +
+                            item["date"] +
+                            "</td><td>" +
+                            item["status"] +
+                            "</td><td>" +
+                            item["punch_in"] +
+                            "</td><td>" +
+                            item["punch_out"] +
+                            "</td><td>" +
+                            item["designation_name"] +
+                            "</td><td>" +
+                            hoursMinute(item["punch_in"], item["punch_out"]);
+                        ("</td></tr>");
+                    });
+
+                    attendence_det += "</tbody></table>";
+                    $(".attendence_table").html(attendence_det);
+
+                }
+                    $("#time_hour").html(
+                        convertMinuteToHoursMinute(total_working_time)
+                    );
+                    $("#current_acc_leaves").text(
+                        response[0]['current_year_accrued_leaves']
+                    );
+                    $("#last_acc_leaves").text(
+                        response[0]['last_year_accrued_leaves']
+                        );
+                  
+                } else {
+                    var emp = "<h2>No Record Found! </h2>";
+                    $(".attendence_table").html(emp);
+                }
             },
         });
     });
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -->>>>viewattendence end<<<<-----------------------------------------------------
 
-
     // ----------------------------------->>>>enable-disable<<<<<---------------------------------------------
 
-    $('.toggle-class').on('change',function(){
-
-        var status=$(this).prop('checked')==true ? 1 : 0;
-        var user_id=$(this).data('id');
+    $(".toggle-class").on("change", function () {
+        var status = $(this).prop("checked") == true ? 1 : 0;
+        var user_id = $(this).data("id");
         $.ajax({
             type: "POST",
-            dataType:'json',
-            url: "http://localhost/hrms/employee/changestatusajax",
+            dataType: "json",
+            url: baseurl + "changestatusajax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
             },
             data: {
-                'status':status,
-                'user_id':user_id,
+                status: status,
+                user_id: user_id,
             },
             success: function (data) {
-                $('#message').html('<p class="alert alert-danger">' + data.success+'</p>')
-            }
+                $("#message").html(
+                    '<p class="alert alert-danger">' + data.success + "</p>"
+                );
+            },
         });
-    })
+    });
 
+    // -------------------------------enable-disable----------------------------------
 
-    // -------------------------------enable-disable end----------------------------------
-
-
-//--------------------------------------<<<<add attendence start>>>-----------------------------
     $(".add_new_punch").click(function () {
         var new_punch = ` <div class="row" style="padding: 10px; margin-top: -20px;" >                
                             <form action="">
@@ -792,14 +923,14 @@ $(document).ready(function () {
             .parents(".col-sm-3")
             .find(".intime")
             .each(function (index, item) {
-               
+                // console.log($(item).val());
                 in_time[index] = $(item).val();
             });
         $(this)
             .parents(".col-sm-3")
             .find(".outtime")
             .each(function (index, item) {
-                
+                // console.log($(item).val());
                 out_time[index] = $(item).val();
             });
 
@@ -857,10 +988,13 @@ $(document).ready(function () {
             console.log(
                 $(this).parents(".col-sm-3").find(".halfday").attr("data")
             );
-           
+            console.log("jitendera ");
+            // console.log(dates);
+            // console.log(emp_id);
+
             $.ajax({
                 type: "POST",
-                url: "http://localhost/hrms/employee/attendenceAjax",
+                url: baseurl + "attendenceAjax",
 
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
@@ -908,8 +1042,6 @@ $(document).ready(function () {
 
         $(this).parents(".col-sm-3").find(".done_punch").attr("data", 2);
     });
-
-
     $(".absent").click(function () {
         //  // using if employee is absent
 
@@ -937,7 +1069,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost/hrms/employee/attendenceAjax",
+                url: baseurl + "attendenceAjax",
 
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr(
@@ -967,18 +1099,15 @@ $(document).ready(function () {
         console.log($(this).parent().remove());
     });
 
-    //--------------------------------------<<<<add attendence end>>>-----------------------------
+    //$(".remove_new_punch").html();
 
- 
-
-
-    //--------------------------------------<<<<department and designation>>>----------------------------- 
+    // $('#customdate').bootstrapMaterialDatePicker({ weekStart: 0, time: false });
 
     $("#department").on("change", function () {
         var dept_id = $(this).val();
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/designationAjax",
+            url: baseurl + "designationAjax",
 
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
@@ -990,7 +1119,7 @@ $(document).ready(function () {
                 var sel_desig =
                     " <select name='designation' class='selectpicker'><option value=''>Select Designation</option> ";
                 response.forEach(function (item, index) {
-                   
+                    // console.log(item);
                     sel_desig +=
                         "<option value=" +
                         item["id"] +
@@ -1004,49 +1133,11 @@ $(document).ready(function () {
         });
     });
 
-
     $("#department2").on("change", function () {
         var dept_id = $(this).val();
-
-       
-        console.log("hello jit");
-        // url: 'http://localhost/hrms/employee/designationAjax',
-
         $.ajax({
             type: "POST",
-            url: "http://localhost/hrms/employee/designationAjax",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
-            },
-            data: { dept_id: dept_id },
-            success: function (response) {
-                // console.log(response);
-
-                var sel_desig =
-                    " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
-                response.forEach(function (item, index) {
-                    sel_desig +=
-                        "<option value=" +
-                        item["id"] +
-                        ">" +
-                        item["designation_name"] +
-                        "</option>";
-                });
-
-                $("#designation2").html(sel_desig).selectpicker("refresh");
-            },
-        });
-    });
-
-    if ($("#department2").val() != "") {
-        var id = $("#desig_id").val();
-        var dept_id = $("#department2").val();
-        // console.log(dept_id);
-
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/hrms/employee/designationAjax",
-
+            url: baseurl + "designationAjax",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
             },
@@ -1067,33 +1158,90 @@ $(document).ready(function () {
                 });
 
                 $("#designation2").html(sel_desig).selectpicker("refresh");
+            },
+        });
+    });
+
+    if ($("#department2").val() != "") {
+        var id = $("#desig_id").val();
+        var dept_id = $("#department2").val();
+
+        $.ajax({
+            type: "POST",
+            url: baseurl + "designationAjax",
+
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
+            },
+            data: { dept_id: dept_id },
+            success: function (response) {
+                // console.log(response);
+
+                var sel_desig =
+                    " <select name='designation2' class='selectpicker'><option value=''>Select Designation</option> ";
+                response.forEach(function (item, index) {
+                    // console.log(item);
+                    sel_desig +=
+                        "<option value=" +
+                        item["id"] +
+                        ">" +
+                        item["designation_name"] +
+                        "</option>";
+                });
+                $("#designation2").html(sel_desig).selectpicker("refresh");
                 $("#designation2").val(id).selectpicker("refresh");
             },
         });
     }
-
-     //--------------------------------------<<<<department and designation end>>>----------------------------- 
 });
 
-
-
-var  total_hour = 0 ;
-var  total_minutes = 0 ;
+var total_hour = 0;
+var total_minutes = 0;
 var total_working_time = 0;
 
-function hoursMinute(time_in,time_out){      
-    var time_i =  time_in.split(':');
-    var time_o = time_out.split(':');
+function hoursMinute(time_in, time_out) {
+    var time_i = time_in.split(":");
+    var time_o = time_out.split(":");
     var minute_o = parseInt(time_o[0]) * 60 + parseInt(time_o[1]);
     var minute_i = parseInt(time_i[0]) * 60 + parseInt(time_i[1]);
     var diff = minute_o - minute_i;
     total_working_time += diff;
     return convertMinuteToHoursMinute(diff);
-
 }
 
-function convertMinuteToHoursMinute(minutes){
-    var hr = Math.floor(minutes/60);
+function convertMinuteToHoursMinute(minutes) {
+    var hr = Math.floor(minutes / 60);
     var min = minutes % 60;
     return hr + " Hrs " + min + " Mins";
 }
+
+
+
+// $(".locker_key_class").hide();
+// $(".icard_class").hide();
+
+// var optionss = "";
+// misscellaneous.forEach(function(item,index){
+//     optionss += "<option value="+ index + ">"+ item +"</option>";
+// });
+
+// $("#misscellaneous").html(optionss);
+
+// $("#misscellaneous").on("change", function () {
+
+//     var missc = $(this).val();
+
+//     if(missc == 1){
+//         $(".locker_key_class").show();
+//         $(".icard_class").hide();
+//     }else if(missc == 0){        
+//         $(".locker_key_class").hide();
+//         $(".icard_class").hide();
+//     }else{
+//         $(".icard_class").show();
+//         $(".locker_key_class").hide();
+//     }
+
+   //  console.log(missc);
+
+// });

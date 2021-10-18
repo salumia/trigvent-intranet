@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="" class="">Address</label>
+                                    <label for="" class="">Permanent Address</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="address" class="form-control"
@@ -170,6 +170,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-4">
+                                    <label for="" class="">Temporary Address</label>
+                                    <div class="form-group">
+                                       <div class="form-line">
+                                            <input type="text" name="temporary_address" class="form-control"
+                                                placeholder="Enter Address" value="{{ $employee->temporary_address }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                                <div class="row">
                                  <div class="col-md-4">    
                                     <label for="" class="">State</label>
                                     <div class="form-group">
@@ -183,8 +195,7 @@
                                 </div>
 
                               
-                            </div>
-                            <div class="row">
+                           
 
                                <div class="col-md-4">
                                       <label for="" class="">City</label>
@@ -200,16 +211,6 @@
                                                 </select>
                                             </div>
                                    </div>
-
-                                {{-- <!-- <div class="col-md-4">
-                                    <label for="" class="">State</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="state" class="form-control" placeholder="Enter State"
-                                                value="{{ $employee->state }}">
-                                        </div>
-                                    </div>
-                                </div> --> --}}
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -261,6 +262,27 @@
                                 </div>
                             </div>
                             <div class="row">
+                               
+                                    <div class="col-md-4">
+    
+                                        <label for="" class="">Skype ID</label>
+    
+                                        <div class="form-group">
+    
+                                            <div class="form-line">
+    
+                                                <input type="text" name="skype_id" class="form-control"
+    
+                                                    placeholder="Enter Skype id" value="{{ $employee->skype_id }}">
+    
+                                            </div>
+    
+    
+    
+                                        </div>
+    
+                                    </div>
+                               
                                 <div class="col-md-4">
                                     <label for="" class="required">User Name</label>
                                     <div class="form-group">
@@ -285,34 +307,65 @@
                                     </div>
                                    
                                 </div>
+                                </div>
+                                <div class="row">
                                 <div class="col-md-4">
                                     <label for="" class="">Relieving Date</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="date" name="relieving_date" class="form-control "
-                                                placeholder="" value="">
-                                               
-                                                
-                                        </div>
-                                     
+                                                placeholder="" value="">           
+                                        </div>                                   
                                     </div>
                                    
                                 </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <p class="sub_section_heading">
+                                    <h4><b><u>Miscellaneous</u> </b></h4>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                {{-- <div class="col-md-4">
                                     <label for="" class="required">Miscellaneous</label>
                                     <div class="form-group">
         
-                                        <select name="department" class="selectpicker"  id="department2"value="">
+                                        <select name="misscellaneous" class="selectpicker"  id="misscellaneous" value="">
                                         
-                                            <option value="">Select Item</option>                                            
-                                            <option value="locker_key">Locker Key</option>
-                                            <option value="icard">Icard</option>
+                                             <option value="0">Select Item</option>                                            
+                                          
                                           
                                         </select>
                                     </div>
+                            </div> --}}
+                            <div class="col-md-4 locker_key_class" >
+                                <label for="" class="" name ="" >Drawer Key</label>
+                                    <div class="form-group">
+                                        <div class="form-line">                                      
+                                            <input type="input" id = "drawer_key" name="Drawer_key" class="form-control "
+                                                placeholder="" value="{{ is_null($miscellaneous) ? '' : $miscellaneous->value }}">  
+                                                                                                                                                                                         
+                                        </div>   
+                                        <input class="filled-in" type="checkbox" id="locker_key_return" name="drawer_return" value = 1  {{ is_null($miscellaneous3)  ||  $miscellaneous3->value !=1  ? '' : 'checked'  }} >
+                                            <label class="form-check-label" style = "margin-left: 216px;top:-33px" for="locker_key_return">Is return</label>                    
+                                    </div>
                             </div>
+                            <div class="col-md-4 locker_key_class" >
+                                <label for="" class=""  name ="" >ID card</label>
+                                    {{-- <div class="form-group"> --}}
+                                        {{-- <div class="form-line">  --}}
+                                            <div class="form-check ">           
+                                            <input class="filled-in" type="checkbox" id="id_card_return" name="id_card_return" value = 1 {{ is_null($miscellaneous4)  ||  $miscellaneous4->value !=1  ? '' : 'checked'  }}>
+                                        
+                                            <label class="form-check-label" for="id_card_return">Is return</label>   
+                                       
+                                           </div>                                       
+                            </div>
+                            
                         </div>
                             <div class="row">
                                 <div class="col-md-12">
