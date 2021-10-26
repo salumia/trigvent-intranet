@@ -24,6 +24,17 @@ var baseurl = "http://localhost/hrms/employee/";
 $(document).ready(function () {
     var count = 2;
 
+    $('#id_card_return1').on('change', function(){
+        $("#id_card_return").val(this.checked ? 1 : 0);
+        //  alert(this.value);
+     });
+
+     $('#locker_key_return').on('change', function(){
+        this.value = this.checked ? 1 : 0;
+        //  alert(this.value);
+     });
+
+
     $("#show_pass").click(function () {
         var x = document.getElementById("myInput");
         if (x.type === "password") {
@@ -858,7 +869,8 @@ $(document).ready(function () {
         });
     });
 
-    // -------------------------------enable-disable----------------------------------
+   
+
 
     $(".add_new_punch").click(function () {
         var new_punch = ` <div class="row" style="padding: 10px; margin-top: -20px;" >                
@@ -1193,7 +1205,90 @@ $(document).ready(function () {
             },
         });
     }
+
+    var emp_id ="";
+ //  var approve_reject_id;
+    $(".approveleave").click(function () {
+     // console.log('approved');
+      var approve_id = $(this).parent().find('input').val();
+       emp_id =  $(this).parent().find('input').eq(1).val();
+      let btnapprove = $(this).parent().find('a').text('Approved');
+       // let btnrej = $(this).parent().next().find('a').hide();
+          $(this).parent().next().css("display", "none");
+      var reject_res = '';
+       console.log(emp_id);
+      const status = 1;
+     approve_reject(approve_id,status,reject_res,emp_id);
+   
+    });
+    var reject_id = "";
+    let btnrejected = "";
+
+    $(".rejectleave").click(function () {
+        reject_id = $(this).parent().find('input').val();
+        btnrejected = $(this).parent().find('a').text('Rejecting...');
+        let btnrej = $(this).parent().prev().css("display", "none");
+        emp_id =  $(this).parent().find('input').eq(1).val();
+        const status = 2;
+        console.log(emp_id);
+        // approve_reject(reject_id,status);
+    
+    });
+
+  console.log(emp_id);
+
+$(".popup_reject_reason").click(function () {
+   console.log('save reason');
+   const status = 2;
+   let emp_ids=  emp_id ;
+   console.log(emp_ids);
+    $('a:contains("Rejecting...")').text('Rejected');
+    var  reject_res = $(".reject_reason").val();
+    // console.log(reject_res);
+   approve_reject(reject_id,status,reject_res,emp_ids);   
+    // location.reload();
 });
+
+
+$(".popup_close_reject_reason").click(function () {
+    console.log('close reason');
+    const status = 2;
+    // $('a:contains("Rejecting...")').text('Reject');
+    location.reload();
+    //    approve_reject(reject_id,status);
+});
+
+});
+
+  function approve_reject(id,status,reject_res,emp_id){
+    $.ajax({
+        type: "POST",
+        url: baseurl + "approve-reject",
+
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf_token"]').attr("content"),
+        },
+        data: { id: id ,status:status, reject_res:reject_res,emp_id:emp_id},
+        success: function (response) {
+              console.log(response);
+            
+            //    if(response == "approved"){
+            //        console.log('hey bro');
+            //         $(".approveleave").parent();
+            //         $(".rejectleave").parent().hide();
+
+            //    }else{
+                 
+            //       $(".rejectleave").parent().show();
+            //       $(".approveleave").parent().find();
+            //     //   $('#approveleave').hide();
+            //     //   $('#rejectleave').show();
+            //     //   $('#rejectleave').text('Rejected');
+            //    }
+
+        },
+    });
+  }
 
 var total_hour = 0;
 var total_minutes = 0;

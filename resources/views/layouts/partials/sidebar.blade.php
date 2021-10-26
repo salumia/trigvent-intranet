@@ -105,14 +105,51 @@
                     
                   @endcan 
 
-                   {{-- @can(['isEmployee'])    --}}
+{{-- ---------------------------------------------------------leave Management--------------------------------------------}}
+
+
+                  <li {{ Route::is('apply_leaves') || Route::is('leave_listing') ? 'class=active' : '' }}>
+                    <a {{ Route::is('apply_leaves') || Route::is('leave_listing') ? 'class=toggled' : '' }}
+                        href="javascript:void(0);" class="menu-toggle waves-effect waves-block  ">
+                        <i class="material-icons">trending_down</i>
+                        <span>Leave Management</span>
+                    </a>
+                    {{-- {{ old('designation') == $des->id ? 'selected' : '' }} --}}
+                    <ul class="ml-menu">
+
+                        @can(['isHrOrEmployee']) 
+                        <li {{ Route::is('apply_leaves') ? 'class=active' : '' }}>
+                            <a href="{{ route('apply_leaves') }}" class="nav-link  waves-effect waves-block  ">
+                                <span>Apply Leaves</span>
+                            </a>
+                        </li>
+                       
+                        <li {{ Route::is('my_leaves') ? 'class=active' : '' }}>
+                            <a href="{{ route('my_leaves') }}" class="nav-link  waves-effect waves-block">
+                                <span>My leaves</span>
+                            </a>
+                        </li>
+                        @endcan 
+                        @can(['isHrOrAdmin'])
+                        <li {{ Route::is('leaves_listing') ? 'class=active' : '' }}>
+                            <a href="{{ route('leaves_listing') }}" class="nav-link  waves-effect waves-block  ">
+                                <span>Leaves listng</span>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+{{-- -------------------------------------------------------------leave Management end--------------------------------------------------}}
+
+
+                   @can(['isEmployee'])   
                   <li {{ Route::is('viewemployeeattendence') ? 'class=active' : '' }}>
                     <a href="{{ route('viewemployeeattendence') }}">
                         <i class="material-icons">fingerprint </i>
                         <span>My attendence</span>
                     </a>
                 </li>
-                 {{-- @endcan   --}}
+                 @endcan  
 
                 <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
                     <a href="{{ route('employeeDetails') }}">

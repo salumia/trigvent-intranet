@@ -350,22 +350,24 @@
                                                 placeholder="" value="{{ is_null($miscellaneous) ? '' : $miscellaneous->value }}">  
                                                                                                                                                                                          
                                         </div>   
-                                        <input class="filled-in" type="checkbox" id="locker_key_return" name="drawer_return" value = 1  {{ is_null($miscellaneous3)  ||  $miscellaneous3->value !=1  ? '' : 'checked'  }} >
+                                        {{-- <input type="hidden" name="drawer_return" value="0">  --}}
+                                        <input class="filled-in" type="checkbox" id="locker_key_return" name="drawer_return1" value="1"  {{ is_null($miscellaneous3)  ||  $miscellaneous3->value !=1  ? '' : 'checked'  }} >
                                             <label class="form-check-label" style = "margin-left: 216px;top:-33px" for="locker_key_return">Is return</label>                    
+                                            <input type="hidden" name="drawer_return" id="locker_key_return" value="0" > 
                                     </div>
                             </div>
                             <div class="col-md-4 locker_key_class" >
                                 <label for="" class=""  name ="" >ID card</label>
                                     {{-- <div class="form-group"> --}}
                                         {{-- <div class="form-line">  --}}
-                                            <div class="form-check ">           
-                                            <input class="filled-in" type="checkbox" id="id_card_return" name="id_card_return" value = 1 {{ is_null($miscellaneous4)  ||  $miscellaneous4->value !=1  ? '' : 'checked'  }}>
-                                        
-                                            <label class="form-check-label" for="id_card_return">Is return</label>   
-                                       
-                                           </div>                                       
-                            </div>
-                            
+                                            <div class="form-check ">
+                                                    
+                                                <input class="filled-in" type="checkbox" id="id_card_return1" name="id_card_return1" value="1"  {{ is_null($miscellaneous4)  ||  $miscellaneous4->value !=1  ? '' : 'checked'  }}>                                        
+                                                {{-- <input type="hidden" name="id_card_return" > --}}    
+                                                <label class="form-check-label" for="id_card_return1">Is return</label>       
+                                                <input type="hidden" name="id_card_return" id="id_card_return" value="0">     
+                                            </div>                                       
+                            </div>                        
                         </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -439,9 +441,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                     
+                                    </div>                                     
                                     <button type="submit" class="btn bg-red btn-lg waves-effect pull-right" id="submit_btn">Update</button>
 
                                     @php

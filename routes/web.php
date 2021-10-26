@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\TableController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\Auth\LoginController;
+
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
@@ -64,6 +66,16 @@ Route::group(['middleware'=>'auth'],function(){
 	});
 	// Route::middleware(['can:isEmployee'])->group(function () {
 		Route::get('/employee/view-employee-attendence',[AttendenceController::class, 'viewemployeeattendence'])->name('viewemployeeattendence');
+		Route::get('/employee/apply-leaves',[LeaveController::class, 'applyleaves'])->name('apply_leaves');
+		Route::post('/employee/store-apply-leaves',[LeaveController::class, 'storeapplyleaves'])->name('store_apply_leaves');
+		Route::get('/employee/store-apply-leaves',[LeaveController::class, 'leaveapplyemail'])->name('leave_apply_email');
+		Route::get('/employee/my-leaves',[LeaveController::class, 'myleaves'])->name('my_leaves');
+		Route::get('/employee/edit-leaves/{id}',[LeaveController::class, 'editleave'])->name('edit_leaves');
+		Route::post('/employee/update-leaves/{id}',[LeaveController::class, 'updateLeave'])->name('update_leaves');
+		Route::get('/employee/update-leaves/{id}',[LeaveController::class, 'updateleaveapplyemail'])->name('update_leaves_email');
+		Route::get('/employee/delete-leave/{id}',[LeaveController::class, 'deleteleave'])->name('delete_leave');
+		Route::get('/employee/leaves-listing',[LeaveController::class, 'leaveslisting'])->name('leaves_listing');
+		Route::post('/employee/approve-reject',[LeaveController::class, 'approverejectAjax'])->name('approve-reject');
 	// });
 
 	Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');

@@ -1,23 +1,12 @@
 @extends('index')
 
-
-
 @section('title')
 
-
-
 @endsection
-
-
 
 @section('extra-css')
 
-
-
 @endsection
-
-
-
 @section('content')
 
     <div class="container-fluid">

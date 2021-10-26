@@ -259,9 +259,7 @@
                                 <div class="col-md-4">
 
                                     <label for="" class="required">Personal Email Address </label>
-
                                     <div class="form-group">
-
                                         <div class="form-line">
 
                                             <input type="text" name="personal_email_address" class="form-control"

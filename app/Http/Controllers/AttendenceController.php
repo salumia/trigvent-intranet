@@ -99,9 +99,7 @@ class AttendenceController extends Controller
         ->join('users','attendence.employee_id','=','users.id')
         ->join('designations', 'designations.id', '=', 'users.designation_id')
         ->select('in_outs.*','attendence.date', 'users.first_name','users.last_name','in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
-
         ->get();
-      
         return view('layouts.employees.view-attendence-employee',compact('employees'));
     }
 

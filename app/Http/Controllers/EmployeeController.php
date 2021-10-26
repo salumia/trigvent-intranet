@@ -222,8 +222,6 @@ class EmployeeController extends Controller
     public function edit($id)
     {
 
-
-
         $user = auth()->user();
         if ($user->role == 0) {
             $employee = User::find($id);
@@ -250,6 +248,7 @@ class EmployeeController extends Controller
     public function updateEmployee(Request $request, $id )
     {
         //  dd($request->all());
+         
         $request->validate([
             'first_name' => 'required',
             'dob' => 'required',

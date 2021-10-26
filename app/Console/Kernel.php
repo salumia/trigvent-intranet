@@ -33,14 +33,10 @@ class Kernel extends ConsoleKernel
                 DB::table('users')->update(['current_year_accrued_leaves'=> 0]);
             }
            DB::table('users')->update(['current_year_accrued_leaves' => DB::raw('current_year_accrued_leaves + 1')]);
-           
-          
-    
+      
            echo "operation done";
-        })->everyMinute();
+        })->monthlyOn(1, '01:00');
 
-// $schedule->command('minute:update')->everyMinute();
-        
 
     }
 
