@@ -176,28 +176,28 @@ class LeaveController extends Controller
     {
         $user = auth()->user();
         // dd($user);
-        $email['to'] = "ankit5199kumar@gmail.com";
+        $email['to'] = "trigvent@gmail.com";
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
-        $data = ['reason' => $reason, 'from' => $from, 'todate' => $todate , 'no_of_days' => $no_of_days , 'department'=>$department];
+        $data = ['reason' => $reason, 'from' =>new DateTime($from), 'todate' => new DateTime($todate) , 'no_of_days' => $no_of_days , 'department'=>$department];
         Mail::send('layouts.employees.leavemail',  $data, function ($message) use ($email) {
             $message->from('trigventintranet@gmail.com', 'Trigvent');
             $message->subject('Leave Request');
             $message->to($email['to']);
-            $message->cc(['rahul999gupta84@gmail.com']);
+            $message->cc(['hr@trigvent.com']);
         });
         // return view('layouts.employees.leavemail', compact('data'));
     }
     public function updateleaveapplyemail($reason, $from, $todate ,$no_of_days)
     {
         $user = auth()->user();
-        $email['to'] = "ankit5199kumar@gmail.com";
+        $email['to'] = "trigvent@gmail.com";
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $data = ['reason' => $reason, 'from' => $from, 'todate' => $todate , 'no_of_days' => $no_of_days , 'department'=>$department];
         Mail::send('layouts.employees.leavemail',  $data, function ($message) use ($email) {
             $message->from('trigventintranet@gmail.com', 'Trigvent');
             $message->subject('Leave Request Update');
             $message->to($email['to']);
-            $message->cc(['rahul999gupta84@gmail.com']);
+            $message->cc(['hr@trigvent.com']);
         });
     }
     public function rejectleaveapplyemail($rjreason,$mail,$rejected_by)
@@ -210,7 +210,7 @@ class LeaveController extends Controller
             $message->from('trigventintranet@gmail.com', 'Trigvent');
             $message->subject('Leave Rejected');
             $message->to($email['to']);
-            $message->cc(['rahul999gupta84@gmail.com']);
+            $message->cc(['trigvent@gmail.com','hr@trigvent.com']);
         });
     }
 
@@ -224,7 +224,7 @@ class LeaveController extends Controller
             $message->from('trigventintranet@gmail.com', 'Trigvent');
             $message->subject('Leave Approved');
             $message->to($email['to']);
-            $message->cc(['rahul999gupta84@gmail.com']);
+            $message->cc(['trigvent@gmail.com','hr@trigvent.com']);
         });
     }
 }

@@ -79,7 +79,12 @@
                             </tr>
                             <tr style="background: #F5F5F5;border: 1px solid #DCDCDC;border-radius: 10px;">
                                 <td  height="50" width="170" style="font-style: normal;font-weight:bold;font-size: 24px;line-height: 32px;color: #1B55EA;border-right: 1px solid #DCDCDC;">Leave date</td>
-                                <td  height="50" style="font-style: normal;font-weight: normal;font-size: 24px;line-height: 32px;color: #111f43;">From:{{ $from}} &nbsp; to:{{$todate}} ({{$no_of_days}})days</td>
+                                <td  height="50" style="font-style: normal;font-weight: normal;font-size: 24px;line-height: 32px;color: #111f43;">
+                                    @if($from == $todate)
+                                    {{ $from->format('j M, Y')}} ({{$no_of_days}} day)
+                                    @else
+                                    {{ $from->format('j M, Y')}} &nbsp; - &nbsp; {{$todate->format('j M, Y')}}  ({{$no_of_days}} days)</td>
+                                    @endif
                             </tr>
                             <tr>
                                 <td height="10" style="font-size: 1px">&nbsp;</td>
