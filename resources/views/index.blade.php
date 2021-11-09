@@ -26,6 +26,7 @@
         {{ Html::style('public/bsbmd/css/select2.min.css') }}
         {{ Html::style('public/bsbmd/css/bootstrap-toggle.min.css') }}
         {{ Html::style('public/bsbmd/css/timepicker.min.css') }}
+        {{ Html::style('public/bsbmd/css/dropzone.min.css') }}
         {{-- {{ Html::style('public/bsbmd/css/materialize.css') }} --}}
 
         
@@ -66,6 +67,7 @@
         {{Html::script('public/bsbmd/js/select2.min.js')}} 
         {{Html::script('public/bsbmd/js/bootstrap-toggle.min.js')}} 
         {{Html::script('public/bsbmd/js/timepicker.min.js')}} 
+        {{Html::script('public/bsbmd/js/dropzone.min.js')}} 
         {{-- {{Html::script('public/bsbmd/js/materialize.js')}}  --}}
         {{Html::script('public/js/my.js?v=12')}} 
          

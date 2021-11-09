@@ -35,7 +35,7 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="date" name="from_date" class="form-control"
-                                                placeholder="Select date" value="{{config('constants.tomorrow')}}">
+                                                placeholder="Select date" value="{{$leaves->from_date}}">
                                         </div>
 
                                         <span class="text-danger">@error('from_date')
@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="date" name="to_date" class="form-control"
-                                                placeholder="Select date" value="{{config('constants.tomorrow')}}">
+                                                placeholder="Select date" value="{{$leaves->to_date}}">
                                         </div>
                                         <span class="text-danger">@error('to_date')
                                             {{ $message }}
@@ -84,7 +84,7 @@
                                 <div class="col-md-12">
                                     <label for="" class="required">Reason</label>
                                     <div class="form-group">
-                                    <textarea  name="reason" id="" rows="6" style = "width:100%" value = "{{ $leaves->reason }}"></textarea>
+                                    <textarea  name="reason" id="" rows="6" style = "width:100%" >{{ $leaves->reason }}</textarea>
                                         {{-- <div class="custome_errors1"></div> --}}
                                     </div>
                                     <span class="text-danger">@error('reason')

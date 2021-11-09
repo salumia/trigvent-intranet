@@ -12,6 +12,8 @@ return [
     | based disks are available to your application. Just store away!
     |
     */
+    // 'cloud' => 'google', // Optional: set Google Drive as default cloud storage
+    
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
 
@@ -33,6 +35,13 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+        ],
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
         ],
 
         'public' => [

@@ -353,7 +353,7 @@ class EmployeeController extends Controller
 
     public function employeeDetails()
     {
-        $user = auth()->user();
+       $user = auth()->user();
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $designation = DB::table('designations')->where('id', $user->designation_id)->select('designation_name')->get()->first();
 
@@ -394,7 +394,9 @@ class EmployeeController extends Controller
             return redirect(route('changePassword'))->with('error', ' Password is Incorrect ! ');
         }
     }
-}
+
+
+
 
 function randomPassword()
 {
@@ -406,4 +408,5 @@ function randomPassword()
         $pass[] = $alphabet[$n];
     }
     return implode($pass); //turn the array into a string
+}
 }

@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GoogledriveController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\WidgetController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -76,6 +79,15 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get('/employee/delete-leave/{id}',[LeaveController::class, 'deleteleave'])->name('delete_leave');
 		Route::get('/employee/leaves-listing',[LeaveController::class, 'leaveslisting'])->name('leaves_listing');
 		Route::post('/employee/approve-reject',[LeaveController::class, 'approverejectAjax'])->name('approve-reject');
+
+		Route::get('/employee/upload-file',[GoogledriveController::class,'upload_file'])->name('upload_file');
+		// Route::post('/employee/store-upload-files',[GoogledriveController::class,'file_upload'])->name('store_uploaded_file');
+		Route::post('/employee/test',[GoogledriveController::class,'drive_store'])->name('test');
+
+		// Route::post('/test', function(Request $request) {
+			// Storage::disk('google')->put('test1.txt', 'Hello World how are you');
+			// dd($request->file("upload_file"));
+		// })->name('test');
 	// });
 
 	Route::get('/employee/addattendence',[AttendenceController::class, 'attendence'])->name('addattendence');

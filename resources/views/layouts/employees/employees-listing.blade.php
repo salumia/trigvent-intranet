@@ -159,6 +159,9 @@
                                     <div class="col-sm-12 employee_listing">
                                         <a href="{{ route('deleteEmployee', ['id' => $employee->id]) }}" id="link" class="btn btn-danger btn-sm delete_btn" onclick="return confirm('Are you really want to delete it.')">Delete</a> 
                                     </div>
+                                    <div class="col-sm-12 employee_listing">
+                                        <a href="{{ route('upload_file', ['id' => $employee->id]) }}" id="upload_btn" class="btn btn-warning btn-sm upload_btn" >Upload File</a> 
+                                    </div>
                                     </div>
                                 </div>
                                             
