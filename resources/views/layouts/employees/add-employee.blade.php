@@ -259,9 +259,7 @@
                                 <div class="col-md-4">
 
                                     <label for="" class="required">Personal Email Address </label>
-
                                     <div class="form-group">
-
                                         <div class="form-line">
 
                                             <input type="text" name="personal_email_address" class="form-control"
@@ -370,7 +368,7 @@
 
                                 <div class="col-md-4">
 
-                                    <label for="" class="">Address</label>
+                                    <label for="" class="">Permanent Address</label>
 
                                     <div class="form-group">
 
@@ -388,6 +386,19 @@
 
                                 </div>
 
+                                <div class="col-md-4">
+                                    <label for="" class="">Temporary Address</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" name="temporary_address" class="form-control"
+                                                placeholder="Enter Address" value="{{ old('temporary_address') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                                 <div class="row">
                                   <div class="col-md-4">
                                         
                                         <label for="" class="">State</label>
@@ -406,65 +417,18 @@
                                             
                                         </div>
     
-    
                                     </div>
 
-                                <!-- <div class="col-md-4">
-
-                                    <label for="" class="">City</label>
-
-                                    <div class="form-group">
-
-                                        <div class="form-line">
-
-                                            <input type="text" name="city" class="form-control" placeholder="Enter City"
-
-                                                value="{{ old('city') }}">
-
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div> -->
-
-                            </div>
-
-                            <div class="row">
-                               
                                 <div class="col-md-4">
                                 <label for="" class="">City</label>
                                         <div class="form-group"  >
                                             <select name="selectcity" id="select_cities" class="selectpicker" value="{{ old('department') }}">
-                                                <option value="">Select City</option>
-                                                {{-- @foreach ($departments as $dep) 
-                                                    <option {{ old('department') == $dep->id ? 'selected' : '' }}
-                                                        value="{{ $dep->id }}">{{ $dep->department_name }}</option> 
-                                                 @endforeach  --}}
+                                                <option value="">Select City</option>                                             
                                             </select>
                                         </div>
                                </div>
 
-                               <!--  <div class="col-md-4">
-
-                                    <label for="" class="">State</label>
-
-                                    <div class="form-group">
-
-                                        <div class="form-line">
-
-                                            <input type="text" name="state" class="form-control" placeholder="Enter State"
-
-                                                value="{{ old('state') }}">
-
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div> -->
+                               
 
                             </div>
 
@@ -599,8 +563,29 @@
                                     </div>
 
                                 </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="" class="">Official Skype ID</label>
+    
+                                        <div class="form-group">
+    
+                                            <div class="form-line">
+    
+                                                <input type="text" name="skype_id" class="form-control"
+    
+                                                    placeholder="Enter Skype id" value="{{ old('skype_id') }}">
+    
+                                            </div>
+    
+    
+    
+                                        </div>
+    
+                                    </div>
+                                </div>
 
-                            </div>
+                            
 
                             <div class="row">
 

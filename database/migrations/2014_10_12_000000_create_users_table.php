@@ -28,12 +28,17 @@ class CreateUsersTable extends Migration
             $table->string('mobile_no');
             $table->string('alternate_no')->nullable();
             $table->string('address')->nullable();
+            $table->string('temporary_address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->integer('employee_code');
             $table->integer('department_id');
             $table->integer('designation_id');
             $table->date('joining_date');
+            $table->date('relieving_date');
+            $table->string('skype_id')->nullable();
+            $table->integer('last_year_accrued_leaves');
+            $table->integer('last_month_accrued_leaves');
             $table->string('bank_account_name')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('bank_account_number')->nullable();

@@ -36,6 +36,8 @@
                 <input class="form-check-input" type="checkbox" id="show_pass" name="remember"  {{ old('remember') ? 'checked' : '' }}>
                 <label class="form-check-label" for="show_pass">Show Password</label>
             </div>
+          
+            
             {{-- <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">

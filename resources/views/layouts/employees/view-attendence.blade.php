@@ -44,14 +44,21 @@
                                         <div class="form-group"  >
                                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                     
-
-                                            <select id = "selectname"class="selectname" name="state" style="width: 366px">
+                                            @can(['isHrOrAdmin'])  
+                                            <select class = "select2name" id="selectname" name="" style="width: 366px">
                                                 <option value="">select name</option>
                                                 @foreach ($employees as $employee) 
                                                     
                                                 <option value="{{$employee->id}}" data-emp="{{$employee->first_name}} {{$employee->last_name}}"> {{$employee->id}} {{ $employee->first_name ." ". $employee->last_name ."    " }}   [{{ $employee->personal_email_address  }}]</option> 
                                                  @endforeach 
                                               </select>
+                                              @endcan
+
+                                            
+                                              {{-- <input type="hidden"  id = "selectname"class="selectname" value="{{Auth::user()->id}}"> --}}
+                                              
+
+
                                         </div>
                                </div>
                                
@@ -65,6 +72,8 @@
                                     </select>
                                 </div>
                        </div>
+                       
+
 
                        <div class="col-md-12">
                              <div class="row">
@@ -82,11 +91,22 @@
                                          <label for="to">To</label>
                                          <input value = "" id="to" class="" type="date" style="width:131px;border: none;border-bottom: 1px solid lightgrey;">
                                     </div>
-                                     <div id=class="col-sm-2"><i id="search"value = "4"class="fa fa-search" style="margin-top:31px;" aria-hidden="true"></i></div>
+                                     <div id="col-sm-2"><i id="search"value = "4"class="fa fa-search" style="margin-top:31px;" aria-hidden="true"></i></div>
                                  </div>
                              </div>
 
                        </div>
+
+                       <div class="col-md-12">
+                        <div class="col-sm-6">
+                         <h3 current_acc_leaves>Current year accrued leaves:</h3>
+                         <h3>Last year accrued leaves:</h3>
+                        </div>
+                        <div class="col-sm-6" id ="accrued_leaves ">
+                         <h3 id ="current_acc_leaves"></h3>
+                          <h3  id ="last_acc_leaves"></h3>
+                     </div>
+                     </div>
                     
                      
 
@@ -102,19 +122,16 @@
 
                         <div class="col-sm-12">
                              <div class="col-sm-8"> 
-                                 <h3>Total  working hours : </h3>
+                                 <h3 id = "twh"  >Total  working hours : </h3>
                             </div>
                          <div class="col-sm-4"> 
-                             <h4 id="time_hour" style="padding: 13px;">  </h4>
+                             <h4 id="time_hour" style="padding: 13px;text-align: right;">  </h4>
                         </div>
                            
                         </div>
 
                       </div>
                         
-
-
-
                     </div>
                 </div>
 
@@ -130,16 +147,7 @@
 
 @endsection
 
-
-
 @section('extra-script')
-    <script>
-        // $('.selectname').select2();
-    </script>
-
-
-
-
-
+   
 
 @endsection

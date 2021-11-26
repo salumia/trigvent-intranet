@@ -109,7 +109,35 @@
                                 <button type="button" id="absent" class="btn btn-danger absent" data="0">Absent</button>
                                 
                             </div>
+
+
+
+                            @foreach ($attendence as  $item)
+                            @if($employee->id == $item->employee_id )
+                              
+                                  
+                                    @if($item->status == 0) 
+                                   
+                                     <input type="hidden" id="status0" value="{{$item->status}}">
+                                     <div class="text-center mypha_status" style=""></div>              
+                                    @elseif($item->status == 1)
+                                    <input type="hidden" id="status1" value="{{$item->status}}">
+                                    
+                                    <div class="text-center mypha_status1" style=""></div>  
+                                     
+                                    @else
+                                    
+                                    <input type="hidden" id="status2" value="{{$item->status}}">
+                                    <div class="text-center mypha_status2" style=""></div> 
+                                  
+                                    @endif
+                                    
+                            @endif
+                          @endforeach
+
+
  --}}
+
                             <div class="pha_status  text-center" style=""><span style="font-size:17px; color:white;position: absolute; left: 50px; top: 11px;"><b>PRESENT</b></span></div>              
                            </div>
                           
@@ -123,11 +151,11 @@
                                  <form action="">
                                   <input type="hidden" value="{{$employee->id}}" id="present_emp_id">
                                    <div class="col-md-6">
-                                       <input type="time"  id="intime" style="" name="last_name" class="form-control time-picker intime"  placeholder="In Time" value="">            
+                                       <input type="time"  id="intime" style="" autocomplete="off" name="last_name" class="form-control time-picker intime"  placeholder="In Time" value="">            
                                        {{-- <input placeholder="In Time" type="text" id="input_starttime" class="form-control timepicker"> --}}
                                    </div>
                                    <div class="col-md-6" style="margin-left:-20px; position:relative;">
-                                      <input type="time" id="outtime" style="" name="last_name" class="form-control time-picker outtime" placeholder="Out Time" value="">
+                                      <input type="time" id="outtime" style="" autocomplete="off" name="last_name" class="form-control time-picker outtime" placeholder="Out Time" value="">
 
                                    </div>   
                                    

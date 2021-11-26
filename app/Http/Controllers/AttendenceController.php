@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AttendenceController extends Controller
 {
@@ -150,27 +151,42 @@ class AttendenceController extends Controller
     }
 
 
-    public function viewattendenceajax(){   // same se name rakhe hai
+    
+    public function viewemployeeattendence(){
+        
+        $employees = DB::table('attendence')->where('employee_id',Auth::user()->id)
+        ->join('in_outs','in_outs.attendence_id','=','attendence.id')
+        ->join('users','attendence.employee_id','=','users.id')
+        ->join('designations', 'designations.id', '=', 'users.designation_id')
+        ->select('in_outs.*','attendence.date', 'users.first_name','users.last_name','in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
+        ->get();
+        return view('layouts.employees.view-attendence-employee',compact('employees'));
+    }
+
+
+    public function viewattendenceajax(){  
 
         $id = $_REQUEST['id'];
         $sel = $_REQUEST['sel_date'];
         $emp_det = "";
         
-    //  $hourmin =  select hour(punch_out),minute(punch_out) from in_outs;  //DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
+         
     
-   // $hourmin = DB::table('in_outs')->where('employee_id',$id);
       
         $emp_det = DB::table('attendence')->where('employee_id',$id)
         ->join('in_outs','in_outs.attendence_id','=','attendence.id')
         ->join('users','attendence.employee_id','=','users.id')
         ->join('designations', 'designations.id', '=', 'users.designation_id')
-        ->select('in_outs.*','attendence.date', 'users.first_name','users.last_name','in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name')
-
+        ->select('in_outs.*','attendence.date', 'users.first_name','users.last_name','in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
         ->get();
 
-        if(empty($emp_det)){
-          
-              $emp_det = DB::table('users')->where('id',$id)->select('first_name','last_name')->get();
+        if(count($emp_det) == 0){
+              $emp_det = [];
+              $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+
+              $emp_det[0] = $all_det2;
+              $emp_det[1] =  1;
+
           }else{
 
             if($sel == 1){
@@ -178,42 +194,79 @@ class AttendenceController extends Controller
                 ->join('in_outs','in_outs.attendence_id','=','attendence.id')
                 ->join('users','attendence.employee_id','=','users.id')
                 ->join('designations', 'designations.id', '=', 'users.designation_id')
-                ->select('in_outs.*','attendence.date','users.first_name','users.last_name', 'in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name')
+                ->select('in_outs.*','attendence.date','users.first_name','users.last_name', 'in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
                 ->get();
+
+                if(count($emp_det) == 0){
+                    $emp_det = [];
+                    $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+      
+                    $emp_det[0] = $all_det2;
+                    $emp_det[1] =  1;
+                }
+
+
             }elseif($sel == 2){
                 $emp_det = DB::table('attendence')->whereMonth('date', date('m')-1)->where('employee_id',$id)
                 ->join('in_outs','in_outs.attendence_id','=','attendence.id')
                 ->join('users','attendence.employee_id','=','users.id')
                 ->join('designations', 'designations.id', '=', 'users.designation_id')
-                ->select('in_outs.*','attendence.date','users.first_name','users.last_name', 'in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name')
+                ->select('in_outs.*','attendence.date','users.first_name','users.last_name', 'in_outs.punch_in','in_outs.punch_out','attendence.status','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
                 ->get();
+
+                if(count($emp_det) == 0){
+                    $emp_det = [];
+                    $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+      
+                    $emp_det[0] = $all_det2;
+                    $emp_det[1] =  1;
+                }
             }
 
      }
     
-        return  $emp_det;
+        return  $emp_det ;
         // return  $sel_date;
     }
 
     public function filterattendenceajax(){
         $sel = $_REQUEST['sel_date'];
         $id = $_REQUEST['id'];
-
+       // $date = '';
        
         if($sel == 1){
             $date = DB::table('attendence')->whereMonth('date', date('m'))->where('employee_id',$id)
             ->join('in_outs','in_outs.attendence_id','=','attendence.id')
             ->join('users','attendence.employee_id','=','users.id')
             ->join('designations', 'designations.id', '=', 'users.designation_id')
-            ->select('in_outs.*','attendence.*','designations.designation_name')
+            ->select('in_outs.*','attendence.*','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
             ->get();
+
+            if(count($date) == 0){
+                $date = [];
+                $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+  
+                $date[0] = $all_det2;
+                $date[1] =  1;
+            }
+
         }elseif($sel == 2){
             $date = DB::table('attendence')->whereMonth('date', date('m')-1)->where('employee_id',$id)
             ->join('in_outs','in_outs.attendence_id','=','attendence.id')
             ->join('users','attendence.employee_id','=','users.id')
             ->join('designations', 'designations.id', '=', 'users.designation_id')
-            ->select('in_outs.*','attendence.*','designations.designation_name')
+            ->select('in_outs.*','attendence.*','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
             ->get();
+
+             
+            if(count($date) == 0){
+                $date = [];
+                $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+  
+                $date[0] = $all_det2;
+                $date[1] =  1;
+            }
+
         }
 
    
@@ -231,8 +284,17 @@ class AttendenceController extends Controller
         ->join('in_outs','in_outs.attendence_id','=','attendence.id')
         ->join('users','attendence.employee_id','=','users.id')
         ->join('designations', 'designations.id', '=', 'users.designation_id')
-        ->select('in_outs.*','attendence.*','designations.designation_name')
+        ->select('in_outs.*','attendence.*','designations.designation_name','users.current_year_accrued_leaves','users.last_year_accrued_leaves')
         ->get();
+
+        if(count($manualdate) == 0){
+            $manualdate = [];
+            $all_det2 = DB::table('users')->where('id',$id)->select('first_name','last_name','current_year_accrued_leaves','last_year_accrued_leaves')->get();
+
+            $manualdate[0] = $all_det2;
+            $manualdate[1] =  1;
+        }
+
    // 
         return $manualdate;
     }
