@@ -82,6 +82,40 @@
                         </ul>
                     </li>
 
+                  @endcan 
+{{-- 
+                 
+                    <li {{ Route::is('attendence') ? 'class=active' : '' }}>
+
+                
+
+               
+               <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}  >
+                    <a  href="javascript:void(0)" class="menu-toggle waves-effect waves-block  ">
+                        <i class="material-icons">trending_down</i>
+                        <span>Details</span>
+                    </a>
+
+                    <ul class="ml-menu">
+                        <li {{ Route::is('employeeDetails') ? 'class=active' : '' }}>
+                            <a  href="{{ route('employeeDetails') }}" class="nav-link  waves-effect waves-block  ">
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                      
+                    </ul> 
+
+                     <li {{ Route::is('attendence') ? 'class=active' : '' }}>
+  --}}
+                        <a href="{{ route('attendence') }}">
+                            <i class="material-icons">person</i>
+                            <span>Attendence Management</span>
+                        </a>
+                    </li> 
+
+
+
+
                     <li {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=active' : '' }}>
                         <a {{ Route::is('addattendence') || Route::is('viewattendence') ? 'class=toggled' : '' }}
                             href="javascript:void(0);" class="menu-toggle waves-effect waves-block  ">

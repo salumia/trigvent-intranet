@@ -50,6 +50,8 @@ class EmployeeController extends Controller
 
 
 
+
+
     public function add()
     {
         $departments = Department::where('status', 1)->get();
@@ -356,6 +358,17 @@ class EmployeeController extends Controller
        $user = auth()->user();
         $department = DB::table('departments')->where('id', $user->department_id)->select('department_name')->get()->first();
         $designation = DB::table('designations')->where('id', $user->designation_id)->select('designation_name')->get()->first();
+// <<<<<<< jitender
+      
+//         $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
+//         $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
+        
+//        // dd($get_city);
+       
+//         return view('layouts.employees.employee-details', compact('department' ,'designation','get_state','get_city'));
+//       }
+// =======
+// >>>>>>> main
 
         $get_state = DB::table('all_states')->where('id', $user->state)->select('state_name')->first();
         $get_city = DB::table('all_cities')->where('id', $user->city)->select('city_name')->first();
